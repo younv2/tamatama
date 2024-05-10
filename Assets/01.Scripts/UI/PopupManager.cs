@@ -1,14 +1,29 @@
-using UnityEngine;
+/*
+ * 파일명 : PopupManager.cs
+ * 작성자 : 윤주호 
+ * 작성일 : 2024/4/11
+ * 최종 수정일 : 2024/5/3
+ * 파일 설명 : 전체 팝업을 관리하는 스크립트
+ * 수정 내용 :
+ * 2024/4/11 - 스크립트 작성
+ * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ */
+
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PopupManager : MonoSingleton<PopupManager>
 {
+    #region Variables
     [HideInInspector] public SettingPopup settingPopup;
-    [HideInInspector] public EggBornPopup eggBornPopup;
+    [HideInInspector] public EggHatchPopup eggHatchPopup;
     [HideInInspector] public InventoryPopup inventoryPopup;
     [HideInInspector] public ItemPopup itemPopup;
+    [HideInInspector] public EggStatePopup eggStatePopup;
     List<BasePopup> popups = new List<BasePopup>();
+    #endregion
 
+    #region Methods
     protected override void Awake()
     {
         base.Awake();
@@ -17,9 +32,10 @@ public class PopupManager : MonoSingleton<PopupManager>
     void Initialize()
     {
         settingPopup = CreatePopUp<SettingPopup>();
-        eggBornPopup = CreatePopUp<EggBornPopup>();
+        eggHatchPopup = CreatePopUp<EggHatchPopup>();
         inventoryPopup = CreatePopUp<InventoryPopup>();
         itemPopup = CreatePopUp<ItemPopup>();
+        eggStatePopup = CreatePopUp<EggStatePopup>();
         foreach (var popup in popups)
             popup.Initialize();
     }
@@ -42,4 +58,5 @@ public class PopupManager : MonoSingleton<PopupManager>
             return obj.GetComponent<T>();
         }
     }
+    #endregion
 }

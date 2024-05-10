@@ -1,24 +1,36 @@
+/*
+ * 파일명 : InventoryPopup.cs
+ * 작성자 : 윤주호 
+ * 작성일 : 2024/4/11
+ * 최종 수정일 : 2024/5/3
+ * 파일 설명 : 현재 플레이어가 가지고 있는 아이템 리스트의 정보를 UI로 표시해주는 스크립트
+ * 수정 내용 :
+ * 2024/4/11 - 스크립트 작성
+ * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ */
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class InventoryPopup : BasePopup, IPointerClickHandler
 {
+    #region Variables
     private int maxSlots = 100;
 
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private Transform slotParent;
 
-    List<ItemSlotUI> slots = new List<ItemSlotUI>();
-    List<Item> userItemList;
-    List<Item> viewItemList;
-    int viewItemFirstIndex;
+    private List<ItemSlotUI> slots = new List<ItemSlotUI>();
+    private List<Item> userItemList;
+    private List<Item> viewItemList = new List<Item>();
+    private int viewItemFirstIndex;
     public Action updateSlotAction;
+    #endregion
+
+    #region Methods
     public override void Initialize()
     {
         base.Initialize();
@@ -48,22 +60,22 @@ public class InventoryPopup : BasePopup, IPointerClickHandler
             PopupManager.Instance.itemPopup.Show(temp.Index);
         }
     }
-    public void Show(ItemType itemType = ItemType.NONE)
+    public void Show(Type type = null)
     {
         base.Show();
-        //userItemList = userItemList.OrderBy(x => x.Type).ToList();
-        userItemList.Sort((Item a, Item b) => a.Type.CompareTo(b.Type));
+        viewItemList.Clear();
+        userItemList = GameManager.Instance.user.Inventory.ItemList;
+        userItemList.Sort((Item a, Item b) => a.Id.CompareTo(b.Id));
         //타입이 정해져 있지 않을 경우 전체 아이템 출력
-        viewItemList =  itemType == ItemType.NONE ?
-            userItemList : userItemList.Where(x=>x.Type == itemType).ToList();
-        viewItemFirstIndex = itemType == ItemType.NONE ?
-            0 :  userItemList.FindIndex(x => x.Type == itemType);
+        viewItemList =  type == null ?
+            userItemList : userItemList.Where(x=>x.GetType() == type).ToList();
+        viewItemFirstIndex = type == null ?
+            0 :  userItemList.FindIndex(x => x.GetType() == type);
 
         for (int i = 0; i < viewItemList.Count; i++)
         {
             slots[i].SetSlotIndex(viewItemFirstIndex+ i);
-
-            slots[i].SetItem(viewItemList[i].SpritePath, viewItemList[i].Amount);
+            slots[i].SetItem(viewItemList[i].SpritePath, viewItemList[i] is CountableItem item ? item.Amount : 1);
         }
     }
     public override void Close()
@@ -78,4 +90,5 @@ public class InventoryPopup : BasePopup, IPointerClickHandler
                 break;
         }
     }
+    #endregion
 }

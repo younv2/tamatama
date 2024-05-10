@@ -1,5 +1,15 @@
+/*
+ * 파일명 : ObjectPoolManager.cs
+ * 작성자 : 윤주호 
+ * 작성일 : 2024/4/11
+ * 최종 수정일 : 2024/5/3
+ * 파일 설명 : 오브젝트 풀을 관리하는 스크립트
+ * 수정 내용 :
+ * 2024/4/11 - 스크립트 작성
+ * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ */
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -16,7 +26,7 @@ public class ObjectPoolManager : MonoBehaviour
         public int count;
     }
 
-
+    #region Variables
     public static ObjectPoolManager instance;
 
     // 오브젝트풀 매니저 준비 완료표시
@@ -33,7 +43,9 @@ public class ObjectPoolManager : MonoBehaviour
 
     // 오브젝트풀에서 오브젝트를 새로 생성할때 사용할 딕셔너리
     private Dictionary<string, GameObject> goDic = new Dictionary<string, GameObject>();
+    #endregion
 
+    #region Methods
     private void Awake()
     {
         if (instance == null)
@@ -123,4 +135,5 @@ public class ObjectPoolManager : MonoBehaviour
 
         return ojbectPoolDic[goName].Get();
     }
+    #endregion
 }

@@ -1,0 +1,4 @@
+Id,Name,Desc,SpriteName,MaxAmount
+1001,인간족 알,인간 알입니다,NormalEgg,99
+1002,악마족 알,악마 알입니다,NormalEgg2,99
+1003,광석족 알,광석족 알입니다,NormalEgg3,99

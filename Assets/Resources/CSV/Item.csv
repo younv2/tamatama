@@ -1,6 +1,3 @@
-Id,Name,ItemType,Desc,SpriteName
-1,알,EGG,알입니다,NormalEgg
-2,알,EGG,알입니다2,NormalEgg2
-3,알,EGG,알입니다23,NormalEgg2
-4,무기,EQUIPMENT,알입니다,NormalEgg3
-5,무기데스요,EQUIPMENT,알입니다23,NormalEgg3
+Id,Name,Desc,SpriteName
+2001,무기,무기입니다,NormalEgg3
+2002,장비,장비입니다,NormalEgg3

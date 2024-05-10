@@ -1,9 +1,18 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
+﻿/*
+ * 파일명 : TamaStat.cs
+ * 작성자 : 윤주호 
+ * 작성일 : 2024/4/11
+ * 최종 수정일 : 2024/5/11
+ * 파일 설명 : 파일이 저장되는 기본 폴더를 가리키기 위한 스크립트
+ * 수정 내용 :
+ * 2024/4/11 - 스크립트 작성
+ * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ * 2024/5/11 - 저장이 제대로 되지않아 Newtonsoft.Json으로 수정 및 해당 라이브러리에 맞게 수정
+ */
+using Newtonsoft.Json;
 using UnityEngine;
 
-
+//적성 구조체
 [System.Serializable]
 public struct Aptitude
 {
@@ -17,59 +26,72 @@ public struct Aptitude
     [SerializeField] StatRank battle;
     [SerializeField] StatRank farming;
 }
-
-public enum StatRank { NONE = -1,F, E, D, C, B, A, S, MAX_COUNT}
+//능력치 랭크
+public enum StatRank { NONE = -1, F, E, D, C, B, A, S, MAX_COUNT }
+//성격
 public enum Personality { NONE = -1,FAITHFUL, MAX_COUNT }
+//종족
+public enum Tribe { NONE = -1,HUMAN, MAX_COUNT }
 [System.Serializable]
 public class TamaStat
 {
     #region Variables
-
-    [SerializeField] string name;                        //타마의 이름
-
-    [SerializeField] StatRank strRank;                   // 힘 랭크
-    [SerializeField] StatRank dexRank;　                 // 민첩 랭크
-    [SerializeField] StatRank intRank;                   // 지능 랭크
-    [SerializeField] StatRank luckRank;                  // 운 랭크
-    [SerializeField] StatRank conRank;                   // 체력 랭크
-    [SerializeField] StatRank endrnRank;                 // 인내력 랭크
-
-    [SerializeField] int strength;                       // 힘- 전투에서의 공격력, 채광 벌목 등에서의 힘에 사용
-    [SerializeField] int dexterity;　                    // 민첩 - 이동 속도, 채집 및 공격 속도, 회피율 및 치명타에 관여
-    [SerializeField] int intelligence;                   // 지능 - ?
-    [SerializeField] int luck;                           // 운 - 회피율 및 치명타에 관여, 채집 및 전투의 드랍율에 관여
-    [SerializeField] int constitution;                   // 체력 - hp 및 방어력 관여
-    [SerializeField] int endurance;                      // 인내력 - 스트레스 관여
-
-    [SerializeField] int level;                          // 타마 레벨
-    [SerializeField] int exp;                            // 타마 현재 경험치
-    [SerializeField] int maxExp;                         // 타마 레벨업에 필요한 경험치
-    [SerializeField] Aptitude aptitude;                  // 타마 적성
-    [SerializeField] int stress;                         // 타마 스트레스
-    [SerializeField] int maxHp;                          // 타마 최대 체력
-    [SerializeField] int curHp;                          // 타마 현재 체력
-    [SerializeField] Personality personality;            // 타마 성격
     #endregion
+
+    #region Properties
+
+    public string Name { get; set; }                        //이름
+    public Tribe Tribe { get; set; }                        //종족
+
+    public StatRank StrRank { get; set; }                   // 힘 랭크
+    public StatRank DexRank { get; set; }                   // 민첩 랭크
+    public StatRank IntRank { get; set; }                   // 지능 랭크
+    public StatRank LuckRank { get; set; }                  // 운 랭크
+    public StatRank ConRank { get; set; }                   // 체력 랭크
+    public StatRank EndrnRank { get; set ; }                // 인내력 랭크
+
+    public int Level { get; set; }                          // 타마 레벨
+    public int Exp { get; set; }                            // 타마 현재 경험치
+    public int MaxExp { get; set; }                         // 타마 레벨업에 필요한 경험치
+    public Aptitude Aptitude { get; set; }                  // 타마 적성
+    public int Stress { get; set; }                         // 타마 스트레스 
+    public int MaxHp { get; set; }                          // 타마 최대 체력 
+    public int CurHp { get; set; }                          // 타마 현재 체력
+    public Personality Personality { get; set; }            // 타마 성격
+
+    [JsonIgnore] public int Strength { get; set; }          // 힘- 전투에서의 공격력, 채광 벌목 등에서의 힘에 사용
+    [JsonIgnore] public int Dexterity { get; set; }         //  민첩   - 이동 속도, 채집 및 공격 속도, 회피율 및 치명타에 관여
+    [JsonIgnore] public int Intelligence { get; set; }      // 지능 - ?
+    [JsonIgnore] public int Luck { get; set; }              // 운 - 회피율 및 치명타에 관여, 채집 및 전투의 드랍율에 관여
+    [JsonIgnore] public int Constitution { get; set; }      // 체력 - hp 및 방어력 관여
+    [JsonIgnore] public int Endurance { get; set; }         // 인내력 - 스트레스 관여
+    #endregion
+
+    #region Constructor
+    public TamaStat()
+    {
+
+    }
+    #endregion
+
+    #region Methods
     /*캐릭터를 만들때 처음 스탯 적용*/
     /*キャラクターを始めて作る時設定する関数。*/
     public void SetName(string name)
     { 
-        this.name = name; 
+        this.Name = name; 
     }
-    public TamaStat()
-    {
-        
-    }
+    
     public void InitStat()
     {
-        name = "test";
-        level = 1;
-        exp = 0;
+        Name = "test";
+        Level = 1;
+        Exp = 0;
         SetRandAllStatus();
-        stress = 0;
-        maxHp = 50;
-        curHp = 50;
-        personality = Personality.FAITHFUL;
+        Stress = 0;
+        MaxHp = 50;
+        CurHp = 50;
+        Personality = Personality.FAITHFUL;
 
         Debug.Log("타마 스탯 세팅 완료");
     }
@@ -85,18 +107,19 @@ public class TamaStat
     /// </summary>
     void SetRandAllStatus(StatRank minRank = 0, StatRank maxRank = StatRank.MAX_COUNT-1)
     {
-        strRank = GetRandStatRank(minRank,maxRank);
-        dexRank = GetRandStatRank(minRank,maxRank);
-        intRank = GetRandStatRank(minRank, maxRank);
-        luckRank = GetRandStatRank(minRank, maxRank);
-        conRank = GetRandStatRank(minRank, maxRank);
-        endrnRank = GetRandStatRank(minRank, maxRank);
+        StrRank     = GetRandStatRank(minRank, maxRank);
+        DexRank     = GetRandStatRank(minRank, maxRank);
+        IntRank     = GetRandStatRank(minRank, maxRank);
+        LuckRank    = GetRandStatRank(minRank, maxRank);
+        ConRank     = GetRandStatRank(minRank, maxRank);
+        EndrnRank   = GetRandStatRank(minRank, maxRank);
 
-        aptitude = new Aptitude(GetRandStatRank(minRank, maxRank), 
+        Aptitude = new Aptitude(GetRandStatRank(minRank, maxRank), 
             GetRandStatRank(minRank, maxRank), GetRandStatRank(minRank, maxRank));
     }
     public void AddStress()
     {
-        stress++;
+        Stress++;
     }
+    #endregion
 }
