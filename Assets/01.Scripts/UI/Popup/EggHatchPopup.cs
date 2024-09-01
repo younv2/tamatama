@@ -7,6 +7,7 @@
  * 수정 내용 :
  * 2024/4/28 - 스크립트 작성 및 알 기본 설정
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ * 2024/9/2 - 부화 관련 데이터 로드가 되지 않는 버그 수정
  */
 
 using System.Collections;
@@ -37,6 +38,7 @@ public class EggHatchPopup : BasePopup
         eggInventoryPopup.Initialize();
         base.Initialize();
         CreateSlots();
+        InitSlots();
         eggInventoryGo.SetActive(false);
     }
     public void CreateSlots()
@@ -45,14 +47,25 @@ public class EggHatchPopup : BasePopup
         for (int i = 0; i < maxSlot; i++)
         {
             slots[i] = Instantiate(slotPrefab, transform.Find("Slots").transform).GetComponent<EggHatchSlot>();
-            slots[i].Index = i;
+        }
+    }
+    public void InitSlots()
+    {
+        for (int i = 0; i < maxSlot; i++)
+        {
+            slots[i].Initialize(i);
         }
     }
 
     public override void Show()
     {
         base.Show();
-        
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].SetUIData();
+        }
+
         eggInventoryPopup.updateSlotAction += CloseEggInventory;
         StartCoroutine(UpdateSlotTime());
     }
@@ -77,10 +90,7 @@ public class EggHatchPopup : BasePopup
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i].State == HatchState.HATCHING)
-                {
-                    slots[i].SetData();
-                }
+                slots[i].SetUIData();
             }
             yield return new WaitForSecondsRealtime(1);
 

@@ -31,7 +31,7 @@ public enum StatRank { NONE = -1, F, E, D, C, B, A, S, MAX_COUNT }
 //성격
 public enum Personality { NONE = -1,FAITHFUL, MAX_COUNT }
 //종족
-public enum Tribe { NONE = -1,HUMAN, MAX_COUNT }
+public enum TamaTribe { NONE = -1,HUMAN,DEVIL, MAX_COUNT }
 [System.Serializable]
 public class TamaStat
 {
@@ -39,16 +39,16 @@ public class TamaStat
     #endregion
 
     #region Properties
-
+    public int Id { get; set; }
     public string Name { get; set; }                        //이름
-    public Tribe Tribe { get; set; }                        //종족
+    public TamaTribe Tribe { get; set; }                        //종족
 
     public StatRank StrRank { get; set; }                   // 힘 랭크
     public StatRank DexRank { get; set; }                   // 민첩 랭크
     public StatRank IntRank { get; set; }                   // 지능 랭크
     public StatRank LuckRank { get; set; }                  // 운 랭크
     public StatRank ConRank { get; set; }                   // 체력 랭크
-    public StatRank EndrnRank { get; set ; }                // 인내력 랭크
+    public StatRank ResRank { get; set ; }                // 인내력 랭크
 
     public int Level { get; set; }                          // 타마 레벨
     public int Exp { get; set; }                            // 타마 현재 경험치
@@ -64,7 +64,10 @@ public class TamaStat
     [JsonIgnore] public int Intelligence { get; set; }      // 지능 - ?
     [JsonIgnore] public int Luck { get; set; }              // 운 - 회피율 및 치명타에 관여, 채집 및 전투의 드랍율에 관여
     [JsonIgnore] public int Constitution { get; set; }      // 체력 - hp 및 방어력 관여
-    [JsonIgnore] public int Endurance { get; set; }         // 인내력 - 스트레스 관여
+    [JsonIgnore] public int Resilience { get; set; }         // 인내력 - 스트레스 관여
+
+    [JsonIgnore] public float MoveSpeed { get; set; }         // 이동 속도
+    [JsonIgnore] public float AttackRange  { get; set; }         // 공격 범위
     #endregion
 
     #region Constructor
@@ -79,19 +82,45 @@ public class TamaStat
     /*キャラクターを始めて作る時設定する関数。*/
     public void SetName(string name)
     { 
+        
         this.Name = name; 
     }
     
     public void InitStat()
     {
+        Id = GameManager.Instance.user.Tamas.Count + 1;
         Name = "test";
-        Level = 1;
+        Level = 5;
         Exp = 0;
+        MoveSpeed = 1;
         SetRandAllStatus();
         Stress = 0;
         MaxHp = 50;
         CurHp = 50;
         Personality = Personality.FAITHFUL;
+
+        Debug.Log("타마 스탯 세팅 완료");
+    }
+    public void InitStat(TamaTribe tribe)
+    {
+        Id = GameManager.Instance.user.Tamas.Count + 1;
+        Tribe = tribe;
+        TamaLevelStatsData statData = DataManager.Instance.FindTamaLevelStatWithId((int)tribe,1);
+        Name = "test";
+        Level = 1;
+        Strength = statData.Str;
+        Dexterity = statData.Dex;
+        Intelligence = statData.Inteli;
+        Luck = statData.Luck;
+        Constitution = statData.Con;
+        Resilience = statData.Res;
+        Exp = 0;
+        MoveSpeed = 1;
+        SetRandAllStatus();
+        SetRandPersonality();
+        Stress = 0;
+        MaxHp = 50;
+        CurHp = 50;
 
         Debug.Log("타마 스탯 세팅 완료");
     }
@@ -105,17 +134,21 @@ public class TamaStat
     /// <summary>
     /// 전체 스탯 랜덤 지정
     /// </summary>
-    void SetRandAllStatus(StatRank minRank = 0, StatRank maxRank = StatRank.MAX_COUNT-1)
+    public void SetRandAllStatus(StatRank minRank = 0, StatRank maxRank = StatRank.MAX_COUNT-1)
     {
         StrRank     = GetRandStatRank(minRank, maxRank);
         DexRank     = GetRandStatRank(minRank, maxRank);
         IntRank     = GetRandStatRank(minRank, maxRank);
         LuckRank    = GetRandStatRank(minRank, maxRank);
         ConRank     = GetRandStatRank(minRank, maxRank);
-        EndrnRank   = GetRandStatRank(minRank, maxRank);
+        ResRank   = GetRandStatRank(minRank, maxRank);
 
         Aptitude = new Aptitude(GetRandStatRank(minRank, maxRank), 
             GetRandStatRank(minRank, maxRank), GetRandStatRank(minRank, maxRank));
+    }
+    public void SetRandPersonality()
+    {
+        Personality = (Personality)Random.Range(0, (int)Personality.MAX_COUNT);
     }
     public void AddStress()
     {

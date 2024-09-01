@@ -2,12 +2,13 @@
  * 파일명 : EggHatchSlot.cs
  * 작성자 : 윤주호 
  * 작성일 : 2024/4/28
- * 최종 수정일 : 2024/5/6
+ * 최종 수정일 : 2024/9/2
  * 파일 설명 : 알 해칭 팝업에서의 알 슬롯 관련 스크립트
  * 수정 내용 :
  * 2024/4/28 - 스크립트 작성 및 알 기본 설정
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
  * 2024/5/6 - OnclickSetting에서 State가 HATCHED일 경우에 대한 코드 추가 및 SetData 수정
+ * 2024/9/2 - 부화 관련 데이터 로드가 되지 않는 버그 수정
  */
 
 using JetBrains.Annotations;
@@ -33,21 +34,24 @@ public class EggHatchSlot : MonoBehaviour
     #endregion
 
     #region Methods
-    private void Start()
+    public void Initialize(int index)
     {
-        slotBtn = GetComponent<Button>();
-        
-        eggHatchPopup = PopupManager.Instance.eggHatchPopup.GetComponent<EggHatchPopup>();
-        eggStatePopup = PopupManager.Instance.eggStatePopup.GetComponent<EggStatePopup>();
+        Index = index;
 
-        State = GameManager.Instance.user.Eggs[Index].State;
+        slotBtn = GetComponent<Button>();
+
+        eggHatchPopup = UIManager.Instance.eggHatchPopup.GetComponent<EggHatchPopup>();
+        eggStatePopup = UIManager.Instance.eggStatePopup.GetComponent<EggStatePopup>();
+
+        GameManager.Instance.user.Eggs[Index].OnHatchStateChanged += HandleStateChange;
+
         OnClickSetting();
     }
     void OnClickSetting()
     {
         slotBtn.onClick.AddListener(() =>
         {
-            switch(this.State)
+            switch(State)
             {
                 case HatchState.EMPTY:
                     eggHatchPopup.ShowEggInventory();
@@ -59,14 +63,15 @@ public class EggHatchSlot : MonoBehaviour
                     eggStatePopup.Show(Index);
                     break;
             }
-
             eggHatchPopup.ActivedSlotIndex = Index;
         });
     }
-    public void SetData()
+    private void HandleStateChange(HatchState newState)
     {
-        if (GameManager.Instance.user.Eggs[Index].RemainTime <= 0 && State == HatchState.HATCHING)
-            State = HatchState.HATCHED;
+        State = newState;
+    }
+    public void SetUIData()
+    { 
         if (State == HatchState.HATCHING)
         {
             timeTxt.text = TextFormat.SetTimeFormat((int)GameManager.Instance.user.Eggs[Index].RemainTime);
@@ -82,10 +87,6 @@ public class EggHatchSlot : MonoBehaviour
             contentTxt.text = "알 부화하기";
             timeTxt.text = "+";
         }
-    }
-    public void SetState(HatchState hatchState)
-    {
-        State = hatchState;
     }
     #endregion
 }

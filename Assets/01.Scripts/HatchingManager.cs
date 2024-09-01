@@ -17,7 +17,7 @@ public class HatchingManager : MonoSingleton<HatchingManager>
     }
     public void ReductionHatchingTime()
     {
-        for (int i = 0; i < GameManager.Instance.user.Eggs.Length; i++)
+        for (int i = 0; i < GameManager.Instance.user.Eggs.Count; i++)
         {
             Egg egg = GameManager.Instance.user.Eggs[i];
             StartCoroutine(egg.StartHatching());

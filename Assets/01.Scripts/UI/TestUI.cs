@@ -10,6 +10,7 @@
  */
 using UnityEngine;
 using UnityEngine.UI;
+using static Define;
 
 public class TestUI : MonoBehaviour
 {
@@ -20,12 +21,6 @@ public class TestUI : MonoBehaviour
         GameObject.Find("AddTamaBtn").GetComponent<Button>().onClick.AddListener(
             () =>
             GameManager.Instance.user.AddTama());
-        GameObject.Find("EggPopup").GetComponent<Button>().onClick.AddListener(
-            () =>
-            PopupManager.Instance.eggHatchPopup.Show());
-        GameObject.Find("Inventory").GetComponent<Button>().onClick.AddListener(
-            () =>
-            PopupManager.Instance.inventoryPopup.Show());
     }
     #endregion
 }

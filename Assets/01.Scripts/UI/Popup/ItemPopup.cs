@@ -55,8 +55,8 @@ public class ItemPopup : BasePopup
         useBtn.onClick.AddListener(() => {
             if(itemIndex != -1)
                 GameManager.Instance.user.Inventory.UseItem(itemIndex);
-            PopupManager.Instance.eggHatchPopup.EggInventoryPopup.updateSlotAction?.Invoke();
-            PopupManager.Instance.inventoryPopup.updateSlotAction?.Invoke();
+            UIManager.Instance.eggHatchPopup.EggInventoryPopup.updateSlotAction?.Invoke();
+            UIManager.Instance.inventoryPopup.updateSlotAction?.Invoke();
             Close();
         });
         sellBtn.onClick.AddListener(() => { });

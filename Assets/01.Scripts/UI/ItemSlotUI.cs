@@ -54,7 +54,7 @@ public class ItemSlotUI : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        iconImage.sprite = SpriteManager.GetItemSprite(imagesPath);
+        iconImage.sprite = SpriteManager.GetSprite(imagesPath);
         amountText.text = amount.ToString();
 
         ShowIcon();

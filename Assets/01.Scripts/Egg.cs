@@ -13,6 +13,7 @@
  */
 
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ using UnityEngine;
 public class Egg
 {
     #region Variables
+    public event Action<HatchState> OnHatchStateChanged;
     #endregion
 
     #region Properties
@@ -28,16 +30,19 @@ public class Egg
     public double TotalTime { get; private set; } = 0;
     public bool IsReduction { get; private set; } = false;
     public HatchState State { get; private set; } = HatchState.EMPTY;
+
+    public TamaTribe Tribe { get; private set; } = TamaTribe.NONE ;
     #endregion
 
     #region Constructor
     [JsonConstructor]
-    public Egg(double remainTime, double totalTime, bool isReduction, HatchState state)
+    public Egg(double remainTime, double totalTime, bool isReduction, HatchState state, TamaTribe tribe)
     {
         RemainTime = remainTime;
         TotalTime = totalTime;
         IsReduction = isReduction;
-        State = state;
+        SetState(state);
+        Tribe = tribe;
     }
     public Egg()
     {
@@ -45,6 +50,7 @@ public class Egg
     }
     #endregion
     #region Methods
+    //해칭중에만 동작할 수 있도록 작업
     public IEnumerator StartHatching()
     {
         while (true)
@@ -56,22 +62,25 @@ public class Egg
                 RemainTime -= 1;
                 yield return new WaitForSecondsRealtime(1);
             }
-            State = HatchState.HATCHED;
-            Debug.Log("해칭 완료");
-            EndHatching();
+            SetState(HatchState.HATCHED);
+            Debug.Log($"해칭 완료");
+            
         }
     }
     public void SetHatchingTime(double time)
     {
         TotalTime = time;
         RemainTime = time;
-        State = HatchState.HATCHING;
+        SetState(HatchState.HATCHING);
         IsReduction = false;
     }
-    public void EndHatching()
+    public void Hatching()
     {
+        GameManager.Instance.user.AddTama(Tribe);
         if (State == HatchState.HATCHED)
-            State = HatchState.EMPTY;
+        {
+            SetState(HatchState.EMPTY);
+        }
     }
     public void SetReduction()
     {
@@ -83,6 +92,19 @@ public class Egg
     public double GetRemainTimePer()
     {
         return RemainTime / TotalTime;
+    }
+
+    internal void SetTribeFromItemId(int id)
+    {
+        Tribe = (TamaTribe)(id - 1001);
+    }
+    public void SetState(HatchState state)
+    {
+        if (State != state)
+        {
+            State = state;
+            OnHatchStateChanged?.Invoke(State);
+        }
     }
     #endregion
 }

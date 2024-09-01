@@ -16,19 +16,29 @@ public static class SpriteManager
 {
     #region Variables
     static Dictionary<string, Sprite> itemSprites = new Dictionary<string, Sprite>();
+    static Dictionary<string, Sprite> tileSprites = new Dictionary<string, Sprite>();
+    static Dictionary<string, Sprite> buildingSprites = new Dictionary<string, Sprite>();
     static bool isLoadedSprites = false;
     #endregion
 
     #region Methods
-    public static Sprite GetItemSprite(string key)
+    public static Sprite GetSprite(string key)
     {
         if (itemSprites.ContainsKey(key))
         {
             return itemSprites[key];
         }
+        if (tileSprites.ContainsKey(key))
+        {
+            return tileSprites[key];
+        }
+        if (buildingSprites.ContainsKey(key))
+        {
+            return buildingSprites[key];
+        }
         else
         {
-            Debug.Log("Null Item Sprite : " + key);
+            Debug.Log("Null Sprite : " + key);
             return null;
         }
     }
@@ -38,7 +48,8 @@ public static class SpriteManager
         if (isLoadedSprites)
             return;
         OnLoadSpritesByPath("Items");
-
+        OnLoadSpritesByPath("Tiles");
+        OnLoadSpritesByPath("Buildings");
         isLoadedSprites = true;
     }
 
@@ -56,6 +67,12 @@ public static class SpriteManager
             {
                 case "Items":
                     itemSprites.Add(str, sprites[i]);
+                    break;
+                case "Tiles":
+                    tileSprites.Add(str, sprites[i]);
+                    break;
+                case "Buildings":
+                    buildingSprites.Add(str, sprites[i]);
                     break;
                 default:
                     Debug.Log("해당 경로는 존재하지 않습니다.");

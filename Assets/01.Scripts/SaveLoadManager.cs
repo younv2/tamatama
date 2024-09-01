@@ -8,6 +8,7 @@
  * 2024/4/24 - 스크립트 작성
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
  * 2024/5/11 - 저장이 제대로 되지않아 Newtonsoft.Json으로 수정 및 해당 라이브러리에 맞게 수정
+ * 2024/9/2 - 부화 관련 데이터 로드가 되지 않는 버그 수정
  */
 
 using Newtonsoft.Json;
@@ -32,6 +33,11 @@ public class SaveLoadManager : MonoBehaviour
     {
         User user = LoadUser();
         GameManager.Instance.user.SetUser(user);
+        foreach(var n in user.Buildings)
+        {
+            BuildManager.Instance.SetBuildingWithLoadData(n.Id,n.Position);
+        }
+        UIManager.Instance.eggHatchPopup.InitSlots();
 
         Debug.Log("유저 데이터 로드");
     }

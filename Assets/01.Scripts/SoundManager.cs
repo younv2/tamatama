@@ -14,7 +14,7 @@ using UnityEngine;
 public class SoundManager
 {
     #region Variables
-    AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
+    AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MAX_COUNT];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
     #endregion
 
@@ -35,7 +35,7 @@ public class SoundManager
                 go.transform.parent = root.transform;
             }
 
-            _audioSources[(int)Define.Sound.Bgm].loop = true; // bgm 재생기는 무한 반복 재생
+            _audioSources[(int)Define.Sound.BGM].loop = true; // bgm 재생기는 무한 반복 재생
         }
     }
     public void Clear()
@@ -49,14 +49,14 @@ public class SoundManager
         // 효과음 Dictionary 비우기
         _audioClips.Clear();
     }
-    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.EFFECT, float pitch = 1.0f)
     {
         if (audioClip == null)
             return;
 
-        if (type == Define.Sound.Bgm) // BGM 배경음악 재생
+        if (type == Define.Sound.BGM) // BGM 배경음악 재생
         {
-            AudioSource audioSource = _audioSources[(int)Define.Sound.Bgm];
+            AudioSource audioSource = _audioSources[(int)Define.Sound.BGM];
             if (audioSource.isPlaying)
                 audioSource.Stop();
 
@@ -66,25 +66,25 @@ public class SoundManager
         }
         else // Effect 효과음 재생
         {
-            AudioSource audioSource = _audioSources[(int)Define.Sound.Effect];
+            AudioSource audioSource = _audioSources[(int)Define.Sound.EFFECT];
             audioSource.pitch = pitch;
             audioSource.PlayOneShot(audioClip);
         }
     }
 
-    public void Play(string path, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
+    public void Play(string path, Define.Sound type = Define.Sound.EFFECT, float pitch = 1.0f)
     {
         AudioClip audioClip = GetOrAddAudioClip(path, type);
         Play(audioClip, type, pitch);
     }
-    AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
+    AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.EFFECT)
     {
         if (path.Contains("Sounds/") == false)
             path = $"Sounds/{path}"; // 📂Sound 폴더 안에 저장될 수 있도록
 
         AudioClip audioClip = null;
 
-        if (type == Define.Sound.Bgm) // BGM 배경음악 클립 붙이기
+        if (type == Define.Sound.BGM) // BGM 배경음악 클립 붙이기
         {
             audioClip = Resources.Load<AudioClip>(path);
         }

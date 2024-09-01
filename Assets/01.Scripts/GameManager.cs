@@ -11,6 +11,7 @@
 
 using System.Text.RegularExpressions;
 using UnityEngine;
+using static Define;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -24,6 +25,7 @@ public class GameManager : MonoSingleton<GameManager>
         base.Awake();
 
         user = new User();
+        user.SetNewUser();
         BackgroundUI.Instance.Init();
         SpriteManager.OnLoadAllSprite();
         Debug.Log("GameManager Awaked");

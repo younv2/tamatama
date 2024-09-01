@@ -10,6 +10,7 @@
  */
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,8 +31,8 @@ public class EggItem : CountableItem, IUseable
     #region Methods
     public bool Use(int amount = 1)
     {
-        Egg[] eggs = GameManager.Instance.user.Eggs;
-        EggHatchPopup eggHatchPopup = PopupManager.Instance.eggHatchPopup;
+        List<Egg> eggs = GameManager.Instance.user.Eggs;
+        int activedEggSlotIndex = UIManager.Instance.eggHatchPopup.ActivedSlotIndex;
         if (Amount - amount < 0)
         {
             Debug.LogWarning("아이템 부족");
@@ -40,10 +41,10 @@ public class EggItem : CountableItem, IUseable
         else
         {
             Amount -= amount;
-            if(eggHatchPopup.ActivedSlotIndex != -1 && eggs[eggHatchPopup.ActivedSlotIndex].State == HatchState.EMPTY)
+            if(activedEggSlotIndex != -1 && eggs[activedEggSlotIndex].State == HatchState.EMPTY)
             {
-                eggs[eggHatchPopup.ActivedSlotIndex].SetHatchingTime(10);
-                eggHatchPopup.Slots[eggHatchPopup.ActivedSlotIndex].SetState(HatchState.HATCHING);
+                eggs[activedEggSlotIndex].SetTribeFromItemId(Id);
+                eggs[activedEggSlotIndex].SetHatchingTime(3);
             }
             Debug.Log("알 사용 완료");
             return true;

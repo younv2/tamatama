@@ -7,6 +7,7 @@
  * 수정 내용 :
  * 2024/4/11 - 스크립트 작성
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
+ * 2024/5/28 - 인벤토리 아이템이 소모되어 사라질경우 아이템리스트 전체가 사라지는 버그 수정(아이템리스트의 얕은 복사로 인함)
  */
 
 using System;
@@ -57,7 +58,7 @@ public class InventoryPopup : BasePopup, IPointerClickHandler
         if (temp != null)
         {
             slots[viewItemList.Count].gameObject.SetActive(false);
-            PopupManager.Instance.itemPopup.Show(temp.Index);
+            UIManager.Instance.itemPopup.Show(temp.Index);
         }
     }
     public void Show(Type type = null)
@@ -68,7 +69,7 @@ public class InventoryPopup : BasePopup, IPointerClickHandler
         userItemList.Sort((Item a, Item b) => a.Id.CompareTo(b.Id));
         //타입이 정해져 있지 않을 경우 전체 아이템 출력
         viewItemList =  type == null ?
-            userItemList : userItemList.Where(x=>x.GetType() == type).ToList();
+            new List<Item>(userItemList) : userItemList.Where(x=>x.GetType() == type).ToList();
         viewItemFirstIndex = type == null ?
             0 :  userItemList.FindIndex(x => x.GetType() == type);
 

@@ -23,7 +23,7 @@ public class MainUIManager : MonoBehaviour
     void Start()
     {
         settingBtn = transform.Find("SettingBtn").GetComponent<Button>();
-        settingBtn.onClick.AddListener(() => { PopupManager.Instance.settingPopup.Show(); });
+        settingBtn.onClick.AddListener(() => { UIManager.Instance.settingPopup.Show(); });
     }
 
     // Update is called once per frame

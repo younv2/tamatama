@@ -24,7 +24,7 @@ public class Inventory
     #region Properties
     public int Gold { get; set; }
     public int Cash { get; set; }
-    public List<Item> ItemList { get; set; }
+    public List<Item> ItemList { get; set; } =  new List<Item> { };
     #endregion
 
     #region Constructor

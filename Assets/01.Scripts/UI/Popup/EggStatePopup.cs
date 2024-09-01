@@ -30,6 +30,7 @@ public class EggStatePopup : BasePopup
     private int index;
     private User user;
     EggHatchPopup eggHatchPopup;
+    
     #endregion
 
     #region Methods
@@ -37,16 +38,12 @@ public class EggStatePopup : BasePopup
     {
         base.Initialize();
         user = GameManager.Instance.user;
-        eggHatchPopup = PopupManager.Instance.eggHatchPopup;
+        eggHatchPopup = UIManager.Instance.eggHatchPopup;
+        //부화 및 즉시 완료버튼을 누를 경우
         immediatelyCompleteBtn.onClick.AddListener(() => {
             if(eggHatchPopup.Slots[index].State == HatchState.HATCHED)
             {
-                eggHatchPopup.Slots[index].State = HatchState.EMPTY;
-                eggHatchPopup.Slots[index].SetData();
-                TamaStat tamaStat = new TamaStat();
-
-                GameManager.Instance.user.AddTama();
-                //Todo : 타마 생성 및 딜레이후 닫히도록
+                user.Eggs[index].Hatching();
                 Close();
             }
             else
@@ -73,47 +70,39 @@ public class EggStatePopup : BasePopup
         base.Show();
         this.index = index;
         StartCoroutine(TimeChecker());
-        SetHatchedMenu();
+        SetHatchedMenuUI();
         if (eggHatchPopup.Slots[index].State == HatchState.HATCHED)
         {
-            SetHatchedMenu(true);
+            SetHatchedMenuUI(true);
         }
-        if (user.Eggs[this.index].IsReduction)
-        {
-            timeReductionBtn.interactable = false;
-            timeReductionBtn.enabled = false;
-        }
-        else
-        {
-            timeReductionBtn.interactable = true;
-            timeReductionBtn.enabled = true;
-        }
+        timeReductionBtn.interactable = !user.Eggs[index].IsReduction;
+        timeReductionBtn.enabled = !user.Eggs[index].IsReduction;
     }
     public override void Close()
     {
         StopCoroutine(TimeChecker());
         base.Close();
     }
+    //알 상태 팝업의 시간 상태 체크
     IEnumerator TimeChecker()
     {
         while(true)
         {
             timeSlider.value = (float)(user.Eggs[index].GetRemainTimePer());
-            if (eggHatchPopup.Slots[index].State == HatchState.HATCHED)
+            if (user.Eggs[index].State == HatchState.HATCHED)
             {
-                SetHatchedMenu(true);
+                SetHatchedMenuUI(true);
             }
             yield return new WaitForSecondsRealtime(0.5f);
         }
         
     }
-    public void SetHatchedMenu(bool isHatched = false)
+    public void SetHatchedMenuUI(bool isHatched = false)
     {
         timeReductionBtn.gameObject.SetActive(!isHatched);
         TextMeshProUGUI btnText = immediatelyCompleteBtn.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
 
         btnText.text = isHatched ? "부화" : "즉시 완료";
-
     }
     #endregion
 }

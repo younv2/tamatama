@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 655195096408547246}
   - component: {fileID: 6261179508707870504}
   - component: {fileID: -8494270293768654413}
+  - component: {fileID: 8347522266984695379}
   m_Layer: 0
   m_Name: Tama
   m_TagString: Untagged
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: -1019781192, guid: 5df68b65e3f641747a23a54fe6c819e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d60e9ea87c9bbc41ab3024f41b13197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!114 &-8494270293768654413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +112,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b33fe42008007344494cd3ecafc9dbc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &8347522266984695379
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5782495951367745034}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bb4e2fa74df169c48844b110a615bd78, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
