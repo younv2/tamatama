@@ -92,7 +92,7 @@ public class TamaPopup : BasePopup
         {
             Destroy(data.gameObject);
         }
-
+        tamaElements.Clear();
         TamaElementUI.onButtonClicked -= FindTamaWithId;
     }
 

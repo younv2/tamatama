@@ -1,4 +1,5 @@
-Id,Name,Desc,SpriteName,MaxAmount
-1001,인간족 알,인간 알입니다,NormalEgg,99
-1002,악마족 알,악마 알입니다,NormalEgg2,99
-1003,광석족 알,광석족 알입니다,NormalEgg3,99
+Id,TribeId,Name,Desc,SpriteName,MaxAmount
+1001,0,인간족 알,인간 알입니다,NormalEgg,99
+1002,1,악마족 알,악마 알입니다,NormalEgg2,99
+1003,2,광석족 알,광석족 알입니다,NormalEgg3,99
+1004,3,엘프족 알,엘프 알입니다,NormalEgg3,99

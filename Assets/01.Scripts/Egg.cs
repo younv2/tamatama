@@ -94,9 +94,9 @@ public class Egg
         return RemainTime / TotalTime;
     }
 
-    internal void SetTribeFromItemId(int id)
+    internal void SetTribe(int tribeId)
     {
-        Tribe = (TamaTribe)(id - 1001);
+        Tribe = (TamaTribe)tribeId;
     }
     public void SetState(HatchState state)
     {

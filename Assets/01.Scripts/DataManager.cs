@@ -51,7 +51,7 @@ public class DataManager : MonoSingleton<DataManager>
         data = CSVReader.Read("CSV/EggItem");
         for (int i = 0; i < data.Count; i++)
         {
-            Item item = new EggItem((int)data[i]["Id"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString(), (int)data[i]["MaxAmount"]);
+            Item item = new EggItem((int)data[i]["Id"], (int)data[i]["TribeId"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString(), (int)data[i]["MaxAmount"]);
 
             ItemList.Add(item);
         }
@@ -94,7 +94,7 @@ public class DataManager : MonoSingleton<DataManager>
         var data = CSVReader.Read("CSV/TamaLevelStats");
         for (int i = 0; i < data.Count; i++)
         {
-            TamaLevelStatsData item = new TamaLevelStatsData((int)data[i]["Id"], (int)data[i]["Level"],
+            TamaLevelStatsData item = new TamaLevelStatsData((int)data[i]["TribeId"], (int)data[i]["Level"],
                 (int)data[i]["Str"], (int)data[i]["Dex"], (int)data[i]["Int"], (int)data[i]["Luc"], (int)data[i]["Con"], (int)data[i]["Res"]);
 
             tamaLvStatsList.Add(item);

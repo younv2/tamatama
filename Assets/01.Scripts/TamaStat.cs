@@ -31,7 +31,7 @@ public enum StatRank { NONE = -1, F, E, D, C, B, A, S, MAX_COUNT }
 //성격
 public enum Personality { NONE = -1,FAITHFUL, MAX_COUNT }
 //종족
-public enum TamaTribe { NONE = -1,HUMAN,DEVIL, MAX_COUNT }
+public enum TamaTribe { NONE = -1,HUMAN,DEVIL,STONE, ELF, MAX_COUNT }
 [System.Serializable]
 public class TamaStat
 {

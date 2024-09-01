@@ -16,10 +16,11 @@ using UnityEngine;
 [System.Serializable]
 public class EggItem : CountableItem, IUseable
 {
+    public int TribeId { get;}
     #region Constructor
-    public EggItem(int id, string name, string desc, string spritePath,int maxAmount = 1, int amount = 1) : base(id,name,desc,spritePath,maxAmount,amount)
+    public EggItem(int id,int tribeId, string name, string desc, string spritePath,int maxAmount = 1, int amount = 1) : base(id,name,desc,spritePath,maxAmount,amount)
     {
-
+        TribeId = tribeId;
     }
     [JsonConstructor]
     public EggItem(int id, int amount) : base(id,amount)
@@ -43,7 +44,7 @@ public class EggItem : CountableItem, IUseable
             Amount -= amount;
             if(activedEggSlotIndex != -1 && eggs[activedEggSlotIndex].State == HatchState.EMPTY)
             {
-                eggs[activedEggSlotIndex].SetTribeFromItemId(Id);
+                eggs[activedEggSlotIndex].SetTribe(TribeId);
                 eggs[activedEggSlotIndex].SetHatchingTime(3);
             }
             Debug.Log("알 사용 완료");
