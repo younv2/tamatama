@@ -106,10 +106,17 @@ public class BuildManager : MonoSingleton<BuildManager>
     {
         if (temp.CanbePlaced())
         {
-            temp.Place();
-            GameManager.Instance.user.Buildings.Add(new BuildingSaveData(temp.Id,temp.area.position));
-            temp = null;
-            ShowUI(false);
+            if(GameManager.Instance.user.Inventory.SpendGold(DataManager.Instance.FindBuildingShopDataWithId(temp.Id).Gold))
+            {
+                temp.Place();
+                GameManager.Instance.user.Buildings.Add(new BuildingSaveData(temp.Id, temp.area.position));
+                temp = null;
+                ShowUI(false);
+            }
+            else
+            {
+                Debug.Log("돈 없어");
+            }
         }
     }
     public void SetMapState(MapState state)

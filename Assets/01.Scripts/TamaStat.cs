@@ -67,6 +67,8 @@ public class TamaStat
     [JsonIgnore] public int Resilience { get; set; }         // 인내력 - 스트레스 관여
 
     [JsonIgnore] public float MoveSpeed { get; set; }         // 이동 속도
+
+    [JsonIgnore] public float AttackSpeed { get; set; }         // 공격 속도
     [JsonIgnore] public float AttackRange  { get; set; }         // 공격 범위
     #endregion
 
@@ -79,10 +81,8 @@ public class TamaStat
 
     #region Methods
     /*캐릭터를 만들때 처음 스탯 적용*/
-    /*キャラクターを始めて作る時設定する関数。*/
     public void SetName(string name)
     { 
-        
         this.Name = name; 
     }
     

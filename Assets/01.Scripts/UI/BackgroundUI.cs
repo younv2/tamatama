@@ -47,10 +47,15 @@ public class BackgroundUI : MonoSingleton<BackgroundUI>
         dispatchPopupBtn = transform.Find("BottomMainBar").Find("DispatchPopupBtn").GetComponent<Button>();
 
         SettingBtn();
+        user.Inventory.OnMoneyChanged += SetCurrentMoneyInUI;
 
+        SetCurrentMoneyInUI();
+        nameText.text = user.Nickname.ToString();
+    }
+    public void SetCurrentMoneyInUI()
+    {
         goldText.text = user.Inventory.Gold.ToString();
         cashText.text = user.Inventory.Cash.ToString();
-        nameText.text = user.Nickname.ToString();
     }
     void SettingBtn()
     {
@@ -75,13 +80,6 @@ public class BackgroundUI : MonoSingleton<BackgroundUI>
         {
             UIManager.Instance.dispatchPopup.Show();
         });
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        goldText.text = user.Inventory.Gold.ToString();
-        cashText.text = user.Inventory.Cash.ToString();
-        nameText.text = user.Nickname.ToString();
     }
     #endregion
 }

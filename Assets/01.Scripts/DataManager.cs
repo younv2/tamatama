@@ -62,7 +62,7 @@ public class DataManager : MonoSingleton<DataManager>
         var data = CSVReader.Read("CSV/Building");
         for (int i = 0; i < data.Count; i++)
         {
-            Building item = new Building((int)data[i]["Id"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["PrefabName"].ToString(), (int)data[i]["SizeX"], (int)data[i]["SizeY"]);
+            Building item = new Building((int)data[i]["BuildingId"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["PrefabName"].ToString(), (int)data[i]["SizeX"], (int)data[i]["SizeY"]);
 
             buildingList.Add(item);
         }
@@ -71,7 +71,7 @@ public class DataManager : MonoSingleton<DataManager>
         data = CSVReader.Read("CSV/BuildingShopData");
         for (int i = 0; i < data.Count; i++)
         {
-            BuildingShopData item = new BuildingShopData((int)data[i]["Id"], (int)data[i]["Gold"]);
+            BuildingShopData item = new BuildingShopData((int)data[i]["BuildingId"], (int)data[i]["Gold"]);
 
             buildingShopDataList.Add(item);
         }
@@ -111,6 +111,10 @@ public class DataManager : MonoSingleton<DataManager>
     public Building FindBuildingWithId(int id)
     {
         return buildingList.Find(x => x.Id == id);
+    }
+    public BuildingShopData FindBuildingShopDataWithId(int id)
+    {
+        return buildingShopDataList.Find(x => x.Id == id);
     }
     public Building FindBuildingWithPrefabName(string name)
     {
