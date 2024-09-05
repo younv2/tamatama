@@ -37,7 +37,7 @@ public class Mob : MonoBehaviour, IMovable, IAttackable, IDamageable
 
     public void TakeDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        stat.CurHp -= (int)damage;
     }
     #endregion
 }
