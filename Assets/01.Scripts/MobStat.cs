@@ -25,6 +25,8 @@ public class MobStat
     public int CurHp { get; set; }                          // 현재 체력
 
     public double AttackRange { get; set; }                 // 공격 범위
+
+    public double SearchTargetRange {  get; set; }          // 타겟 탐색 범위
     #endregion
 
     #region Constructor
@@ -42,12 +44,14 @@ public class MobStat
         this.Name = name; 
     }
     
-    public void InitStat()
+    public void InitStat(string name, int level, int hp, double attackRange, double searchTargetRange)
     {
-        Name = "test";
-        Level = 1;
-        MaxHp = 50;
-        CurHp = 50;
+        Name = name;
+        Level = level;
+        MaxHp = hp;
+        CurHp = hp;
+        AttackRange = attackRange;
+        SearchTargetRange = searchTargetRange;
 
         Debug.Log("몹 스탯 세팅 완료");
     }
