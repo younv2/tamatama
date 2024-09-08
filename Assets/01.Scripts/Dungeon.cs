@@ -12,7 +12,7 @@ public class Dungeon
 {
     private int id;
     private string name;
-    private string desc;
+    private string desc; 
 
     public int Id => id;
     public string Name => name;
