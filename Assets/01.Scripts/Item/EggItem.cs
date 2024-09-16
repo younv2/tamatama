@@ -1,12 +1,12 @@
 /*
- * ÆÄÀÏ¸í : EggItem.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/30
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/3
- * ÆÄÀÏ ¼³¸í : ¾Ë ¾ÆÀÌÅÛ °ü·Ã ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/30 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
+ * íŒŒì¼ëª… : EggItem.cs
+ * ìž‘ì„±ìž : ìœ¤ì£¼í˜¸ 
+ * ìž‘ì„±ì¼ : 2024/4/30
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/5/3
+ * íŒŒì¼ ì„¤ëª… : ì•Œ ì•„ì´í…œ ê´€ë ¨ ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/30 - ìŠ¤í¬ë¦½íŠ¸ ìž‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìžë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ìž‘ì„±)
  */
 
 using Newtonsoft.Json;
@@ -36,7 +36,7 @@ public class EggItem : CountableItem, IUseable
         int activedEggSlotIndex = UIManager.Instance.eggHatchPopup.ActivedSlotIndex;
         if (Amount - amount < 0)
         {
-            Debug.LogWarning("¾ÆÀÌÅÛ ºÎÁ·");
+            Debug.LogWarning("ì•„ì´í…œ ë¶€ì¡±");
             return false;
         }
         else
@@ -47,7 +47,7 @@ public class EggItem : CountableItem, IUseable
                 eggs[activedEggSlotIndex].SetTribe(TribeId);
                 eggs[activedEggSlotIndex].SetHatchingTime(3);
             }
-            Debug.Log("¾Ë »ç¿ë ¿Ï·á");
+            Debug.Log("ì•Œ ì‚¬ìš© ì™„ë£Œ");
             return true;
         }
     }

@@ -1,15 +1,15 @@
 /*
- * ÆÄÀÏ¸í : Egg.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/28
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/11
- * ÆÄÀÏ ¼³¸í : À¯Àú°¡ °¡Áö°íÀÖ´Â ¾ËÀÇ Á¤º¸ ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/28 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
- * 2024/5/6 - IsReduction ÇÁ·ÎÆÛÆ¼, SetRecution, GetRemainTimePer ¸Þ¼­µå Ãß°¡  
- * 2024/5/7 - SetRecution¿¡ RemainTime / 2 ¸¦ TotalTime / 2·Î ¼öÁ¤ ,ÇÁ·ÎÆÛÆ¼°¡ ÀúÀåÀÌ µÇÁö ¾Ê´Â °ÍÀ» È®ÀÎÇÏ¿© º¯¼ö·Î ³ª´® 
- * 2024/5/11 - ÀúÀåÀÌ Á¦´ë·Î µÇÁö¾Ê¾Æ Newtonsoft.JsonÀ¸·Î ¼öÁ¤ ¹× ÇØ´ç ¶óÀÌºê·¯¸®¿¡ ¸Â°Ô ¼öÁ¤
+ * íŒŒì¼ëª… : Egg.cs
+ * ìž‘ì„±ìž : ìœ¤ì£¼í˜¸ 
+ * ìž‘ì„±ì¼ : 2024/4/28
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/5/11
+ * íŒŒì¼ ì„¤ëª… : ìœ ì €ê°€ ê°€ì§€ê³ ìžˆëŠ” ì•Œì˜ ì •ë³´ ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/28 - ìŠ¤í¬ë¦½íŠ¸ ìž‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìžë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ìž‘ì„±)
+ * 2024/5/6 - IsReduction í”„ë¡œí¼í‹°, SetRecution, GetRemainTimePer ë©”ì„œë“œ ì¶”ê°€  
+ * 2024/5/7 - SetRecutionì— RemainTime / 2 ë¥¼ TotalTime / 2ë¡œ ìˆ˜ì • ,í”„ë¡œí¼í‹°ê°€ ì €ìž¥ì´ ë˜ì§€ ì•ŠëŠ” ê²ƒì„ í™•ì¸í•˜ì—¬ ë³€ìˆ˜ë¡œ ë‚˜ëˆ” 
+ * 2024/5/11 - ì €ìž¥ì´ ì œëŒ€ë¡œ ë˜ì§€ì•Šì•„ Newtonsoft.Jsonìœ¼ë¡œ ìˆ˜ì • ë° í•´ë‹¹ ë¼ì´ë¸ŒëŸ¬ë¦¬ì— ë§žê²Œ ìˆ˜ì •
  */
 
 using Newtonsoft.Json;
@@ -50,7 +50,7 @@ public class Egg
     }
     #endregion
     #region Methods
-    //ÇØÄªÁß¿¡¸¸ µ¿ÀÛÇÒ ¼ö ÀÖµµ·Ï ÀÛ¾÷
+    //í•´ì¹­ì¤‘ì—ë§Œ ë™ìž‘í•  ìˆ˜ ìžˆë„ë¡ ìž‘ì—…
     public IEnumerator StartHatching()
     {
         while (true)
@@ -63,7 +63,7 @@ public class Egg
                 yield return new WaitForSecondsRealtime(1);
             }
             SetState(HatchState.HATCHED);
-            Debug.Log($"ÇØÄª ¿Ï·á");
+            Debug.Log($"í•´ì¹­ ì™„ë£Œ");
             
         }
     }
