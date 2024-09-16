@@ -15,19 +15,22 @@ using UnityEngine;
 
 public class DungeonManager : MonoSingleton<DungeonManager>
 {
+    public List<Dungeon> dungeonLst = new List<Dungeon>();
+
     public void EnterDungeon(Tama tama, DungeonData dungeon)
     {
         tama.gameObject.transform.position = dungeon.playerSpawnPoint;
     }
 
-    public void EnterDungeon(List<Tama> tamas, DungeonData dungeon)
+    public void EnterDungeon(List<Tama> tamas, DungeonData dungeonData)
     {
+        Dungeon dungeon =  dungeonLst.Find(x=>x.DungeonData  == dungeonData);
         foreach(var tama in tamas)
         {
-            tama.gameObject.transform.position = dungeon.playerSpawnPoint + 
+            tama.gameObject.transform.position = dungeon.DungeonData.playerSpawnPoint + 
                 new Vector2(UnityEngine.Random.Range(-1f,1f), UnityEngine.Random.Range(-1f, 1f));
         }
 
-        EnemyManager.Instance.SpawnMonsterById(10001, dungeon.monsterSpawnPoints[0]);
+        EnemyManager.Instance.SpawnMonsterById(10001, dungeonData.monsterSpawnPoints[0],5);
     }
 }

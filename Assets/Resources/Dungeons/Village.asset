@@ -19,6 +19,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 5782495951367745034, guid: 1ab590bb084413545ba1a9b217f55b5b, type: 3}
   rewards: []
-  playerSpawnPoint: {x: 18, y: -5}
+  playerSpawnPoint: {x: 18, y: -5.5}
   monsterSpawnPoints:
-  - {x: 25, y: 0}
+  - {x: 20, y: -6}

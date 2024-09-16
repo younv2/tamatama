@@ -19,7 +19,7 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
     public float MoveSpeed => throw new System.NotImplementedException();
 
     public int CurHp { get; set; }
-
+    public bool IsDead {  get; set; }
     public void Attack()
     {
         attackComponent.Attack();
@@ -34,6 +34,7 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
     #region Methods
     public void SetMonsterData(MonsterData data)
     {
+        IsDead = false;
         monsterData = data;
         CurHp = data.maxHp;
         Debug.Log("Setted Monster Data");
@@ -52,6 +53,7 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
     {
         Debug.Log($"{monsterData.monsterName} has died!");
         // 죽었을 때 처리 로직
+        IsDead = true;
         gameObject.SetActive(false);
     }
     #endregion
