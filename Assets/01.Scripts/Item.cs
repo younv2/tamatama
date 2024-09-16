@@ -32,7 +32,7 @@ public class Item
     public Item(int id)
     {
         Id = id;
-        Item temp = DataManager.Instance.ItemList.Find(x => x.Id == id); 
+        Item temp = DataManager.Instance.ItemLst.Find(x => x.Id == id); 
         Name = temp.Name;
         Desc = temp.Desc;
         SpritePath = temp.SpritePath;

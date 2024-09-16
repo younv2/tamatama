@@ -1,27 +1,68 @@
 /*
- * ÆÄÀÏ¸í : DungeonPopup.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/9/3
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/9/3
- * ÆÄÀÏ ¼³¸í : ´øÀü ÆÄ°ß ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/9/3 - ½ºÅ©¸³Æ® ÀÛ¼º
+ * íŒŒì¼ëª… : DungeonPopup.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/8/18
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/8/25
+ * íŒŒì¼ ì„¤ëª… : íŒŒê²¬(ì „íˆ¬) íŒì—… ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/8/18 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/8/25 - ë˜ì „ ì„¤ëª…UI ì¶”ê°€ 
+ * 2024/9/16 - ë˜ì „ íŒŒê²¬ ë²„íŠ¼ ë™ì‘ ì¶”ê°€
  */
 
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DungeonPopup : BasePopup
 {
-    #region Variables
+    private List<DungeonElementUI> dungeonElementList = new List<DungeonElementUI>();
+    [SerializeField] private TextMeshProUGUI dungeonNameTxt;
+    [SerializeField] private TextMeshProUGUI dungeonDescTxt;
+    [SerializeField] private GameObject dungeonElement;
+    [SerializeField] private Button dispatchBtn;
+    private DungeonData currentSelectedDungeon;
 
-    #endregion
+    public override void Initialize()
+    {
+        base.Initialize();
 
-    #region Properties
-    
-    #endregion
+        foreach(var data in DataManager.Instance.DungeonLst)
+        {
+            DungeonElementUI temp = Instantiate(dungeonElement, transform.Find("Scroll View").Find("Viewport").Find("Content").transform).GetComponent<DungeonElementUI>();
+            temp.SetUI(data.dungeonName);
+            dungeonElementList.Add(temp);
+        }
+        dispatchBtn.onClick.AddListener(SetDispatch);
+        //ì²«ë²ˆì§¸ ë˜ì „ì´ ë°”ë¡œ ì„ íƒë  ìˆ˜ ìˆë„ë¡ í•¨.
+        currentSelectedDungeon = DataManager.Instance.DungeonLst[0];
+        SetDungeonDetail();
+    }
+    void OnEnable()
+    {
+        DungeonElementUI.OnButtonClicked += HandleButtonClick;
+    }
 
-    #region Methods
-    
-    #endregion
+    void OnDisable()
+    {
+        DungeonElementUI.OnButtonClicked -= HandleButtonClick;
+    }
+    private void HandleButtonClick(int dungeonCode)
+    {
+        currentSelectedDungeon = DataManager.Instance.FindDungeonWithId(dungeonCode);
+        SetDungeonDetail();
+    }
+    private void SetDungeonDetail()
+    {
+        dungeonNameTxt.text = currentSelectedDungeon.dungeonName;
+        dungeonDescTxt.text = currentSelectedDungeon.dungeonDesc;
+    }
+    private void SetDispatch()
+    {
+        UIManager.Instance.dispatchPopup.SetDungeonData(currentSelectedDungeon);
+        UIManager.Instance.dispatchPopup.Show();
+    }
+
 }

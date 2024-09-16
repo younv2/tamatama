@@ -1,59 +1,84 @@
-﻿/*
+/*
  * 파일명 : DispatchPopup.cs
  * 작성자 : 윤주호 
- * 작성일 : 2024/8/18
- * 최종 수정일 : 2024/8/18
- * 파일 설명 : 파견(전투) 팝업 스크립트
+ * 작성일 : 2024/9/3
+ * 최종 수정일 : 2024/9/3
+ * 파일 설명 : 던전 파견 스크립트
  * 수정 내용 :
- * 2024/8/18 - 스크립트 작성
- * 2024/8/25 - 던전 설명UI 추가 
+ * 2024/9/3 - 스크립트 작성
+ * 2024/9/16 - 타마 리스트 추가/ 타마 선택 기능 추가
+ * 
  */
-
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DispatchPopup : BasePopup
 {
-    private List<DungeonElementUI> dungeonElementList = new List<DungeonElementUI>();
-    [SerializeField] private TextMeshProUGUI dungeonNameTxt;
-    [SerializeField] private TextMeshProUGUI dungeonDescTxt;
-    [SerializeField] private GameObject dungeonElement;
-    private Dungeon currentSelectedDungeon;
+    #region Variables
+    private DungeonData currentDungeonData;
+    private List<TamaElementUI> tamaElements = new List<TamaElementUI>();
+    [SerializeField] private GameObject tamaElement;
+    private List<TamaStat> tamas;
+    private List<int> selectedTamaIds = new List<int>();
+    [SerializeField] private Button dispatchBtn;
+    #endregion
 
+    #region Properties
+
+    #endregion
+
+    #region Methods
+
+    public override void Show()
+    {
+        base.Show();
+
+        foreach (var data in tamas)
+        {
+            TamaElementUI temp = Instantiate(tamaElement, transform.Find("Scroll View").Find("Viewport").Find("Content").transform).GetComponent<TamaElementUI>();
+            temp.SetUI(data.Id, data.Name);
+            tamaElements.Add(temp);
+        }
+        dispatchBtn.onClick.AddListener(() =>
+        {
+            if (selectedTamaIds.Count == 0)
+            {
+                Debug.LogError("선택이 필요합니다.");
+                return;
+            }
+            TamaStat tama = GameManager.Instance.user.Tamas.Find(x=>x.Id == selectedTamaIds[0]);
+            
+        });
+        TamaElementUI.onButtonClicked += SetDispatchTama;
+
+    }
+    private void SetDispatchTama(int tamaId)
+    {
+        selectedTamaIds.Add(tamaId);
+        Debug.Log($"tamaId = {selectedTamaIds.Count}");
+    }
     public override void Initialize()
     {
         base.Initialize();
 
-        foreach(var data in DataManager.Instance.dungeonList)
+        tamas = GameManager.Instance.user.Tamas;
+    }
+    public void SetDungeonData(DungeonData dungeonData)
+    {
+        currentDungeonData = dungeonData;
+    }
+    public override void Close()
+    {
+        base.Close();
+
+        //Todo: Destroy가 아닌 방식으로의 개선 예정
+        foreach (var data in tamaElements)
         {
-            DungeonElementUI temp = Instantiate(dungeonElement, transform.Find("Scroll View").Find("Viewport").Find("Content").transform).GetComponent<DungeonElementUI>();
-            temp.SetUI(data.Name);
-            dungeonElementList.Add(temp);
+            Destroy(data.gameObject);
         }
-        //첫번째 던전이 바로 선택될 수 있도록 함.
-        currentSelectedDungeon = DataManager.Instance.dungeonList[0];
-        SetDungeonDetail();
+        tamaElements.Clear();
     }
-    void OnEnable()
-    {
-        DungeonElementUI.OnButtonClicked += HandleButtonClick;
-    }
-
-    void OnDisable()
-    {
-        DungeonElementUI.OnButtonClicked -= HandleButtonClick;
-    }
-    private void HandleButtonClick(int dungeonCode)
-    {
-        currentSelectedDungeon = DataManager.Instance.FindDungeonWithId(dungeonCode);
-        SetDungeonDetail();
-    }
-    private void SetDungeonDetail()
-    {
-        dungeonNameTxt.text = currentSelectedDungeon.Name;
-        dungeonDescTxt.text = currentSelectedDungeon.Desc;
-    }
-
+    #endregion
 }

@@ -78,7 +78,7 @@ public class BackgroundUI : MonoSingleton<BackgroundUI>
         
         dispatchPopupBtn.onClick.AddListener(() =>
         {
-            UIManager.Instance.dispatchPopup.Show();
+            UIManager.Instance.dungeonPopup.Show();
         });
     }
     #endregion

@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 
 [System.Serializable]
-public class MobStat
+public class MonsterStat
 {
     #region Variables
     #endregion
@@ -30,7 +30,7 @@ public class MobStat
     #endregion
 
     #region Constructor
-    public MobStat()
+    public MonsterStat()
     {
 
     }

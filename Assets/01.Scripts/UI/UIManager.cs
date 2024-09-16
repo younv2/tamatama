@@ -20,8 +20,9 @@ public class UIManager : MonoSingleton<UIManager>
     [HideInInspector] public InventoryPopup inventoryPopup;
     [HideInInspector] public ItemPopup itemPopup;
     [HideInInspector] public EggStatePopup eggStatePopup;
-    [HideInInspector] public DispatchPopup dispatchPopup;
+    [HideInInspector] public DungeonPopup dungeonPopup;
     [HideInInspector] public TamaPopup tamaPopup;
+    [HideInInspector] public DispatchPopup dispatchPopup;
 
     [HideInInspector] public BuildingShopUI buildingShopUI;
 
@@ -41,8 +42,9 @@ public class UIManager : MonoSingleton<UIManager>
         inventoryPopup = CreatePopUp<InventoryPopup>();
         itemPopup = CreatePopUp<ItemPopup>();
         eggStatePopup = CreatePopUp<EggStatePopup>();
-        dispatchPopup = CreatePopUp<DispatchPopup>();
+        dungeonPopup = CreatePopUp<DungeonPopup>();
         tamaPopup = CreatePopUp<TamaPopup>();
+        dispatchPopup = CreatePopUp<DispatchPopup>();
         foreach (var popup in popups)
             popup.Initialize();
     }

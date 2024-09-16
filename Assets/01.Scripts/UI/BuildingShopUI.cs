@@ -22,7 +22,7 @@ public class BuildingShopUI : MonoSingleton<BuildingShopUI>
     void Start()
     {
         closeBtn = transform.Find("CloseBtn").GetComponent<Button>();
-        foreach(var d in DataManager.Instance.buildingShopDataList)
+        foreach(var d in DataManager.Instance.BuildingShopDataLst)
         {
             BuildingShopElementUI temp = Instantiate(slotPrefab, transform.Find("ViewPort").Find("Content").transform).GetComponent<BuildingShopElementUI>();
             temp.SetUI(d.Id, d.Gold);

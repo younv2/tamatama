@@ -17,13 +17,11 @@ using UnityEngine;
 public class DataManager : MonoSingleton<DataManager>
 {
     #region Properties
-    public List<Item> ItemList { get ; } = new List<Item>();
-    public List<Building> buildingList { get ; } = new List<Building>();
-    public List<BuildingShopData> buildingShopDataList { get; } = new List<BuildingShopData>();
-
-    public List<Dungeon> dungeonList { get; } = new List<Dungeon>();
-
-    public List<TamaLevelStatsData> tamaLvStatsList { get; } = new List<TamaLevelStatsData>();
+    public List<Item> ItemLst { get ; } = new List<Item>();
+    public List<Building> BuildingLst { get ; } = new List<Building>();
+    public List<BuildingShopData> BuildingShopDataLst { get; } = new List<BuildingShopData>();
+    public List<DungeonData> DungeonLst { get; set; } = new List<DungeonData>();
+    public List<TamaLevelStatsData> tamaLvStatsLst { get; } = new List<TamaLevelStatsData>();
     #endregion
 
     #region Methods
@@ -40,89 +38,90 @@ public class DataManager : MonoSingleton<DataManager>
     }
     public void LoadItemData()
     {
-        ItemList.Clear();
+        ItemLst.Clear();
         var data = CSVReader.Read("CSV/Item");
         for(int i = 0; i < data.Count; i++)
         {
             Item item = new Item((int)data[i]["Id"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString());
 
-            ItemList.Add(item);
+            ItemLst.Add(item);
         }
         data = CSVReader.Read("CSV/EggItem");
         for (int i = 0; i < data.Count; i++)
         {
             Item item = new EggItem((int)data[i]["Id"], (int)data[i]["TribeId"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString(), (int)data[i]["MaxAmount"]);
 
-            ItemList.Add(item);
+            ItemLst.Add(item);
         }
     }
     public void LoadBuildingData()
     {
-        buildingList.Clear();
+        BuildingLst.Clear();
         var data = CSVReader.Read("CSV/Building");
         for (int i = 0; i < data.Count; i++)
         {
             Building item = new Building((int)data[i]["BuildingId"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["PrefabName"].ToString(), (int)data[i]["SizeX"], (int)data[i]["SizeY"]);
 
-            buildingList.Add(item);
+            BuildingLst.Add(item);
         }
 
-        buildingShopDataList.Clear();
+        BuildingShopDataLst.Clear();
         data = CSVReader.Read("CSV/BuildingShopData");
         for (int i = 0; i < data.Count; i++)
         {
             BuildingShopData item = new BuildingShopData((int)data[i]["BuildingId"], (int)data[i]["Gold"]);
 
-            buildingShopDataList.Add(item);
+            BuildingShopDataLst.Add(item);
         }
 
     }
     public void LoadDungeonData()
     {
-        dungeonList.Clear();
-        var data = CSVReader.Read("CSV/Dungeon");
-        for (int i = 0; i < data.Count; i++)
-        {
-            Dungeon item = new Dungeon((int)data[i]["Id"], data[i]["Name"].ToString(), data[i]["Desc"].ToString());
+        // Resources 폴더에서 DungeonData 스크립터블 오브젝트들을 모두 로드
+        DungeonData[] dungeons = Resources.LoadAll<DungeonData>("Dungeons");
 
-            dungeonList.Add(item);
-        }
+        // 리스트에 던전 데이터들을 추가
+        DungeonLst = new List<DungeonData>(dungeons);
+
+        DungeonLst.Sort((a,b)=>a.dungeonId.CompareTo(b.dungeonId));
+        Debug.Log($"Loaded {DungeonLst.Count} dungeons.");
+
     }
     public void LoadTamaLevelStatData()
     {
-        tamaLvStatsList.Clear();
+        tamaLvStatsLst.Clear();
         var data = CSVReader.Read("CSV/TamaLevelStats");
         for (int i = 0; i < data.Count; i++)
         {
             TamaLevelStatsData item = new TamaLevelStatsData((int)data[i]["TribeId"], (int)data[i]["Level"],
                 (int)data[i]["Str"], (int)data[i]["Dex"], (int)data[i]["Int"], (int)data[i]["Luc"], (int)data[i]["Con"], (int)data[i]["Res"]);
 
-            tamaLvStatsList.Add(item);
+            tamaLvStatsLst.Add(item);
         }
     }
-    public Dungeon FindDungeonWithId(int id)
+    public DungeonData FindDungeonWithId(int id)
     {
-        return dungeonList.Find(x => x.Id == id);
+        return DungeonLst.Find(x => x.dungeonId == id);
     }
     public TamaLevelStatsData FindTamaLevelStatWithId(int id,int lv)
     {
-        return tamaLvStatsList.Find(x => x.Id == id && x.Lv == lv);
+        return tamaLvStatsLst.Find(x => x.Id == id && x.Lv == lv);
     }
     public Building FindBuildingWithId(int id)
     {
-        return buildingList.Find(x => x.Id == id);
+        return BuildingLst.Find(x => x.Id == id);
     }
     public BuildingShopData FindBuildingShopDataWithId(int id)
     {
-        return buildingShopDataList.Find(x => x.Id == id);
+        return BuildingShopDataLst.Find(x => x.Id == id);
     }
     public Building FindBuildingWithPrefabName(string name)
     {
-        return buildingList.Find(x => x.PrefabName == name);
+        return BuildingLst.Find(x => x.PrefabName == name);
     }
     public Item FindItemWithId(int id)
     {
-       return ItemList.Find(x => x.Id == id);
+       return ItemLst.Find(x => x.Id == id);
     }
         
     #endregion

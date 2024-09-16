@@ -22,6 +22,7 @@ public class TamaElementUI : MonoBehaviour
     private int tamaId;
     private Button btn;
     public static event UnityAction<int> onButtonClicked;
+    public bool isToggle = false;
 
     // Start is called before the first frame update
     private void Start()

@@ -27,7 +27,7 @@ public class DungeonElementUI : MonoBehaviour
     {
         btn = GetComponent<Button>();
 
-        btn.onClick.AddListener(() => OnButtonClick(DataManager.Instance.dungeonList.Find(x=> DungeonNameTxt.text == x.Name).Id));
+        btn.onClick.AddListener(() => OnButtonClick(DataManager.Instance.DungeonLst.Find(x=> DungeonNameTxt.text == x.dungeonName).dungeonId));
     }
     public void SetUI(string dunName)
     {
