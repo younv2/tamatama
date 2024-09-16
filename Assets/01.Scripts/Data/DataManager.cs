@@ -1,13 +1,14 @@
 /*
- * ÆÄÀÏ¸í : DataManager.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/11
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/3
- * ÆÄÀÏ ¼³¸í : ÀüÃ¼ µ¥ÀÌÅÍµéÀ» ÃÑ°ı °ü¸®ÇÏ´Â ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/11 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
- * 2024/6/8 - °Ç¹° °ü·Ã csv ºÒ·¯¿À±â Ãß°¡
+ * íŒŒì¼ëª… : DataManager.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/4/11
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/9/16
+ * íŒŒì¼ ì„¤ëª… : ì „ì²´ ë°ì´í„°ë“¤ì„ ì´ê´„ ê´€ë¦¬í•˜ëŠ” ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/11 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ì‘ì„±)
+ * 2024/6/8 - ê±´ë¬¼ ê´€ë ¨ csv ë¶ˆëŸ¬ì˜¤ê¸° ì¶”ê°€
+ * 2024/9/16 - ë˜ì „, ëª¬ìŠ¤í„° ì •ë³´ ë¡œë“œ ì¶”ê°€
  */
 
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ public class DataManager : MonoSingleton<DataManager>
     public List<BuildingShopData> BuildingShopDataLst { get; } = new List<BuildingShopData>();
     public List<DungeonData> DungeonLst { get; set; } = new List<DungeonData>();
     public List<TamaLevelStatsData> tamaLvStatsLst { get; } = new List<TamaLevelStatsData>();
+
+    public List<MonsterData> MonsterLst{ get; set; } = new List<MonsterData>();
     #endregion
 
     #region Methods
@@ -77,14 +80,26 @@ public class DataManager : MonoSingleton<DataManager>
     }
     public void LoadDungeonData()
     {
-        // Resources Æú´õ¿¡¼­ DungeonData ½ºÅ©¸³ÅÍºí ¿ÀºêÁ§Æ®µéÀ» ¸ğµÎ ·Îµå
+        // Resources í´ë”ì—ì„œ DungeonData ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸ë“¤ì„ ëª¨ë‘ ë¡œë“œ
         DungeonData[] dungeons = Resources.LoadAll<DungeonData>("Dungeons");
 
-        // ¸®½ºÆ®¿¡ ´øÀü µ¥ÀÌÅÍµéÀ» Ãß°¡
+        // ë¦¬ìŠ¤íŠ¸ì— ë˜ì „ ë°ì´í„°ë“¤ì„ ì¶”ê°€
         DungeonLst = new List<DungeonData>(dungeons);
 
         DungeonLst.Sort((a,b)=>a.dungeonId.CompareTo(b.dungeonId));
         Debug.Log($"Loaded {DungeonLst.Count} dungeons.");
+
+    }
+    public void LoadMonsterData()
+    {
+        // Resources í´ë”ì—ì„œ DungeonData ìŠ¤í¬ë¦½í„°ë¸” ì˜¤ë¸Œì íŠ¸ë“¤ì„ ëª¨ë‘ ë¡œë“œ
+        MonsterData[] monsters = Resources.LoadAll<MonsterData>("Monsters");
+
+        // ë¦¬ìŠ¤íŠ¸ì— ë˜ì „ ë°ì´í„°ë“¤ì„ ì¶”ê°€
+        MonsterLst = new List<MonsterData>(monsters);
+
+        MonsterLst.Sort((a, b) => a.monsterId.CompareTo(b.monsterId));
+        Debug.Log($"Loaded {MonsterLst.Count} dungeons.");
 
     }
     public void LoadTamaLevelStatData()

@@ -16,7 +16,9 @@ MonoBehaviour:
   dungeonName: "\uD3D0\uD5C8\uAC00 \uB41C \uB9C8\uC744"
   dungeonDesc: "\uD3D0\uD5C8\uAC00 \uB41C \uB9C8\uC744\uC785\uB2C8\uB2E4."
   difficultyLevel: 1
-  enemies: []
+  enemies:
+  - {fileID: 5782495951367745034, guid: 1ab590bb084413545ba1a9b217f55b5b, type: 3}
   rewards: []
   playerSpawnPoint: {x: 18, y: -5}
-  monsterSpawnPoints: []
+  monsterSpawnPoints:
+  - {x: 25, y: 0}

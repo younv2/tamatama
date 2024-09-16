@@ -1,11 +1,11 @@
 /*
- * ÆÄÀÏ¸í : TamaElementUI.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/8/18
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/8/18
- * ÆÄÀÏ ¼³¸í : ´øÀü Á¤º¸¸¦ º¸¿©ÁÖ´Â UI ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/8/18 - ½ºÅ©¸³Æ® ÀÛ¼º
+ * íŒŒì¼ëª… : TamaElementUI.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/8/18
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/8/18
+ * íŒŒì¼ ì„¤ëª… : ë˜ì „ ì •ë³´ë¥¼ ë³´ì—¬ì£¼ëŠ” UI ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/8/18 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
  */
 
 using System.Collections;
@@ -35,7 +35,6 @@ public class TamaElementUI : MonoBehaviour
     {
         this.tamaId = tamaId;
         tamaNameTxt.text = tamaName;
-        Debug.Log(tamaId);
     }
     public void OnButtonClick(int tamaId)
     {

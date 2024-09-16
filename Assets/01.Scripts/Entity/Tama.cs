@@ -1,15 +1,15 @@
 /*
- * ÆÄÀÏ¸í : Tama.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/11
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/7/3
- * ÆÄÀÏ ¼³¸í : Å¸¸¶(À¯ÀúÀÇ Ä³¸¯ÅÍµé)
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/11 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
- * 2024/7/3 - ±æÃ£±â ¾Ë°í¸®Áò Ãß°¡
- * 2024/7/6 - ¾Ö´Ï¸ŞÀÌ¼Ç °ü·Ã Ãß°¡
- * 2024/7/11 - ÄÄÆ÷³ÍÆ® ÆĞÅÏ
+ * íŒŒì¼ëª… : Tama.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/4/11
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/7/3
+ * íŒŒì¼ ì„¤ëª… : íƒ€ë§ˆ(ìœ ì €ì˜ ìºë¦­í„°ë“¤)
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/11 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ì‘ì„±)
+ * 2024/7/3 - ê¸¸ì°¾ê¸° ì•Œê³ ë¦¬ì¦˜ ì¶”ê°€
+ * 2024/7/6 - ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ì¶”ê°€
+ * 2024/7/11 - ì»´í¬ë„ŒíŠ¸ íŒ¨í„´
  */
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
 {
     #region Variables
     [SerializeField] private TamaStat stat;
-    //TamaOutfitPart outfit; //ÃßÈÄ ÀÛ¾÷
+    //TamaOutfitPart outfit; //ì¶”í›„ ì‘ì—…
 
     private AttackComponent attackComponent;
     private MoveComponent moveComponent;
@@ -35,8 +35,6 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
 
         moveComponent.Initialize(this);
         attackComponent.Initialize(this);
-
-        MoveTo(new Vector3(5, 2, 0));
     }
     public void SetTama(TamaStat stat)
     {

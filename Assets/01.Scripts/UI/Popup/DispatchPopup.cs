@@ -11,13 +11,14 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DispatchPopup : BasePopup
 {
     #region Variables
-    private DungeonData currentDungeonData;
+    private DungeonData selectedDungeon;
     private List<TamaElementUI> tamaElements = new List<TamaElementUI>();
     [SerializeField] private GameObject tamaElement;
     private List<TamaStat> tamas;
@@ -48,15 +49,28 @@ public class DispatchPopup : BasePopup
                 Debug.LogError("선택이 필요합니다.");
                 return;
             }
-            TamaStat tama = GameManager.Instance.user.Tamas.Find(x=>x.Id == selectedTamaIds[0]);
             
+            List<TamaStat> tamaStats = GameManager.Instance.user.Tamas.FindAll(x=>selectedTamaIds.Contains(x.Id));
+            // 여러 개의 타마 오브젝트를 가져오기
+            List<Tama> selectedTamas = tamaStats
+                .Select(tamaStat => TamaManager.Instance.GetTama(tamaStat))
+                .ToList();
+
+            DungeonManager.Instance.EnterDungeon(selectedTamas, selectedDungeon);
+
+            selectedTamaIds.Clear();
+
+
         });
         TamaElementUI.onButtonClicked += SetDispatchTama;
 
     }
     private void SetDispatchTama(int tamaId)
     {
-        selectedTamaIds.Add(tamaId);
+        if(selectedTamaIds.Exists(x => x == tamaId))
+            selectedTamaIds.Remove(tamaId);
+        else
+            selectedTamaIds.Add(tamaId);
         Debug.Log($"tamaId = {selectedTamaIds.Count}");
     }
     public override void Initialize()
@@ -67,7 +81,7 @@ public class DispatchPopup : BasePopup
     }
     public void SetDungeonData(DungeonData dungeonData)
     {
-        currentDungeonData = dungeonData;
+        selectedDungeon = dungeonData;
     }
     public override void Close()
     {
@@ -78,6 +92,7 @@ public class DispatchPopup : BasePopup
         {
             Destroy(data.gameObject);
         }
+        TamaElementUI.onButtonClicked -= SetDispatchTama;
         tamaElements.Clear();
     }
     #endregion
