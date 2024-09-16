@@ -22,6 +22,14 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         tama.gameObject.transform.position = dungeon.playerSpawnPoint;
     }
 
+    public Dungeon CreateDungeon(DungeonData dungeonData)
+    {
+        Dungeon newDungeon = new Dungeon();
+        newDungeon.InitializeDungeon(dungeonData);
+        dungeonLst.Add(newDungeon);  
+        return newDungeon;
+    }
+
     public void EnterDungeon(List<Tama> tamas, DungeonData dungeonData)
     {
         Dungeon dungeon =  dungeonLst.Find(x=>x.DungeonData  == dungeonData);
@@ -29,8 +37,9 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         {
             tama.gameObject.transform.position = dungeon.DungeonData.playerSpawnPoint + 
                 new Vector2(UnityEngine.Random.Range(-1f,1f), UnityEngine.Random.Range(-1f, 1f));
+            dungeon.AddTama(tama);
         }
 
-        EnemyManager.Instance.SpawnMonsterById(10001, dungeonData.monsterSpawnPoints[0],5);
+        EnemyManager.Instance.SpawnMonsterById(10001, dungeonData.monsterSpawnPoints[0]);
     }
 }

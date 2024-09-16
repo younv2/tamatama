@@ -25,6 +25,8 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     private MoveComponent moveComponent;
 
     public float MoveSpeed => stat.MoveSpeed;
+
+    public bool IsDead { get; set; }
     #endregion
 
     #region Methods

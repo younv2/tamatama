@@ -13,8 +13,9 @@ using UnityEngine;
 
 public class Dungeon : MonoBehaviour
 {
-    public DungeonData DungeonData { get; }
+    public DungeonData DungeonData { get; set; }
     public List<Monster> activeMonsterLst = new List<Monster>();
+    public List<Tama> activeTamaLst = new List<Tama>();
 
     // 던전에서 몬스터 소환
     public void SpawnMonster(MonsterData monsterData, Vector3 position, int count)
@@ -29,7 +30,17 @@ public class Dungeon : MonoBehaviour
             }
         }
 
-    }// 던전 내 모든 몬스터 추적 및 관리
+    }
+    // 타마 추가
+    public void AddTama(Tama tama)
+    {
+        if (!activeTamaLst.Contains(tama))
+        {
+            activeTamaLst.Add(tama);
+        }
+    }
+
+    // 던전 내 모든 몬스터 추적 및 관리
     public void UpdateMonsters()
     {
         foreach (var monster in activeMonsterLst)
@@ -41,5 +52,22 @@ public class Dungeon : MonoBehaviour
                 // 추가 로직 (예: 몬스터 제거 시 이벤트 처리 등)
             }
         }
+    }
+    public void UpdateTamas()
+    {
+        foreach (var tama in activeTamaLst)
+        {
+            // 몬스터 상태 업데이트 (예: 사망 체크)
+            if (tama.IsDead)
+            {
+                activeTamaLst.Remove(tama);
+                // 추가 로직 (예: 몬스터 제거 시 이벤트 처리 등)
+            }
+        }
+    }
+
+    public void InitializeDungeon(DungeonData dungeonData)
+    {
+        this.DungeonData = dungeonData;
     }
 }

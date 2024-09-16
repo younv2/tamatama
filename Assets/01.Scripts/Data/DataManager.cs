@@ -86,7 +86,8 @@ public class DataManager : MonoSingleton<DataManager>
 
         // 리스트에 던전 데이터들을 추가
         DungeonLst = new List<DungeonData>(dungeons);
-
+        foreach(var data in dungeons)
+            DungeonManager.Instance.CreateDungeon(data);
         DungeonLst.Sort((a,b)=>a.dungeonId.CompareTo(b.dungeonId));
         Debug.Log($"Loaded {DungeonLst.Count} dungeons.");
 
