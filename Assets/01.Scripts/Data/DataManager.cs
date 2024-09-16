@@ -36,6 +36,7 @@ public class DataManager : MonoSingleton<DataManager>
         LoadItemData();
         LoadBuildingData();
         LoadDungeonData();
+        LoadMonsterData();
         LoadTamaLevelStatData();
         Debug.Log("DataManager Awaked");
     }

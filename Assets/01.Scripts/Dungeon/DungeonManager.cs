@@ -27,5 +27,7 @@ public class DungeonManager : MonoSingleton<DungeonManager>
             tama.gameObject.transform.position = dungeon.playerSpawnPoint + 
                 new Vector2(UnityEngine.Random.Range(-1f,1f), UnityEngine.Random.Range(-1f, 1f));
         }
+
+        EnemyManager.Instance.SpawnMonsterById(10001, dungeon.monsterSpawnPoints[0]);
     }
 }

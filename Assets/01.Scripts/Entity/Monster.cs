@@ -32,7 +32,7 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
     #endregion
 
     #region Methods
-    public void SetMonster(MonsterData data)
+    public void SetMonsterData(MonsterData data)
     {
         monsterData = data;
         CurHp = data.maxHp;

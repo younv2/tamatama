@@ -2507,8 +2507,8 @@ MonoBehaviour:
   - objectName: Tama
     perfab: {fileID: 5782495951367745034, guid: e613bfa528a367a49ab3fdc4f9fe0944, type: 3}
     count: 20
-  - objectName: Enemy
-    perfab: {fileID: 5782495951367745034, guid: 1ab590bb084413545ba1a9b217f55b5b, type: 3}
+  - objectName: Slime
+    perfab: {fileID: 5782495951367745034, guid: ea63fdde901816d43a93d7be21e0214e, type: 3}
     count: 20
 --- !u!1 &418396877
 GameObject:
