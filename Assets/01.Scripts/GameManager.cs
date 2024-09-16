@@ -25,7 +25,7 @@ public class GameManager : MonoSingleton<GameManager>
         base.Awake();
 
         user = new User();
-        user.SetNewUser();
+        user.Init();
         BackgroundUI.Instance.Init();
         SpriteManager.OnLoadAllSprite();
         Debug.Log("GameManager Awaked");

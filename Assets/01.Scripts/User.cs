@@ -1,17 +1,18 @@
 /*
- * ÆÄÀÏ¸í : User.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/11
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/11
- * ÆÄÀÏ ¼³¸í : À¯Àú ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/11 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
- * 2024/5/7 - ÇÁ·ÎÆÛÆ¼°¡ ÀúÀåÀÌ µÇÁö ¾Ê´Â °ÍÀ» È®ÀÎÇÏ¿© º¯¼ö·Î ³ª´®
- * 2024/5/11 - ÀúÀåÀÌ Á¦´ë·Î µÇÁö¾Ê¾Æ Newtonsoft.JsonÀ¸·Î ¼öÁ¤ ¹× ÇØ´ç ¶óÀÌºê·¯¸®¿¡ ¸Â°Ô ¼öÁ¤
- * 2024/6/8 - °ÇÃà¹° µ¥ÀÌÅÍ ÀúÀåµÇµµ·Ï ¼öÁ¤
- * 2024/8/29 - Å¸¸¶°¡ Á¾Á·º°·Î ³ª¿Ã ¼ö ÀÖµµ·Ï ¼öÁ¤ 
- * 2024/9/2 - ºÎÈ­ °ü·Ã µ¥ÀÌÅÍ ·Îµå°¡ µÇÁö ¾Ê´Â ¹ö±× ¼öÁ¤
+ * íŒŒì¼ëª… : User.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/4/11
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/9/16
+ * íŒŒì¼ ì„¤ëª… : ìœ ì € ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/11 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ì‘ì„±)
+ * 2024/5/7 - í”„ë¡œí¼í‹°ê°€ ì €ì¥ì´ ë˜ì§€ ì•ŠëŠ” ê²ƒì„ í™•ì¸í•˜ì—¬ ë³€ìˆ˜ë¡œ ë‚˜ëˆ”
+ * 2024/5/11 - ì €ì¥ì´ ì œëŒ€ë¡œ ë˜ì§€ì•Šì•„ Newtonsoft.Jsonìœ¼ë¡œ ìˆ˜ì • ë° í•´ë‹¹ ë¼ì´ë¸ŒëŸ¬ë¦¬ì— ë§ê²Œ ìˆ˜ì •
+ * 2024/6/8 - ê±´ì¶•ë¬¼ ë°ì´í„° ì €ì¥ë˜ë„ë¡ ìˆ˜ì •
+ * 2024/8/29 - íƒ€ë§ˆê°€ ì¢…ì¡±ë³„ë¡œ ë‚˜ì˜¬ ìˆ˜ ìˆë„ë¡ ìˆ˜ì • 
+ * 2024/9/2 - ë¶€í™” ê´€ë ¨ ë°ì´í„° ë¡œë“œê°€ ë˜ì§€ ì•ŠëŠ” ë²„ê·¸ ìˆ˜ì •
+ * 2024/9/16 - íƒ€ë§ˆ ê´€ë ¨ ê¸°ëŠ¥ì„ TamaManager.csì— ë¶„ë¦¬
  */
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -46,30 +47,28 @@ public class User
     #endregion
 
     #region Methods
-    public void SetNewUser()
+    public void Init()
     {
         for(int i =0; i< hatchEggsLimitCount; i++)
         {
             Eggs.Add(new Egg());
         }
     }
+    // ìƒˆë¡œìš´ íƒ€ë§ˆ ì¶”ê°€ ìš”ì²­ (TamaManagerì—ì„œ ìƒì„± ë° ë§¤í•‘)
     public void AddTama()
     {
-        TamaStat tama = new TamaStat();
-        tama.InitStat();
-        Tamas.Add(tama);
-        Tama tamas = ObjectPoolManager.instance.GetGo("Tama").GetComponent<Tama>();
-        tamas.SetTama(tama);
-    }
-    public void AddTama(TamaTribe tribe)
-    {
-        TamaStat tama = new TamaStat();
-        tama.InitStat(tribe);
-        Tamas.Add(tama);
-        Tama tamas = ObjectPoolManager.instance.GetGo("Tama").GetComponent<Tama>();
-        tamas.SetTama(tama);
+        // ë§¤ë‹ˆì €ì— íƒ€ë§ˆ ìƒì„±ì„ ìš”ì²­
+        TamaStat newTamaStat = TamaManager.Instance.CreateTama();
+        Tamas.Add(newTamaStat);  // ë§¤ë‹ˆì €ì—ì„œ ìƒì„±ëœ íƒ€ë§ˆ ìŠ¤íƒ¯ì„ ì¶”ê°€
     }
 
+    // ì¢…ì¡±ë³„ íƒ€ë§ˆ ì¶”ê°€ ìš”ì²­
+    public void AddTama(TamaTribe tribe)
+    {
+        // ë§¤ë‹ˆì €ì— íƒ€ë§ˆ ìƒì„±ì„ ìš”ì²­ (íŠ¹ì • ì¢…ì¡±ìœ¼ë¡œ)
+        TamaStat newTamaStat = TamaManager.Instance.CreateTama(tribe);
+        Tamas.Add(newTamaStat);  // ë§¤ë‹ˆì €ì—ì„œ ìƒì„±ëœ íƒ€ë§ˆ ìŠ¤íƒ¯ì„ ì¶”ê°€
+    }
     public void SetUser(User user)
     {
         Inventory = user.Inventory;
@@ -84,6 +83,9 @@ public class User
         {
             Eggs[i] = user.Eggs[i];
         }
+        // íƒ€ë§ˆ ë§¤ë‹ˆì €ì™€ ë™ê¸°í™”
+        TamaManager.Instance.SyncWithUserTamas(Tamas);
+
         HatchingManager.Instance.ReductionHatchingTime();
     }
     #endregion
