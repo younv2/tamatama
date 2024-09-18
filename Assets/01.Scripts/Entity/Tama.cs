@@ -59,5 +59,9 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     {
         moveComponent.MoveTo(destination);
     }
+    public void SetCurrentTarget(Transform target)
+    {
+        attackComponent.SetTarget(target);
+    }
     #endregion
 }

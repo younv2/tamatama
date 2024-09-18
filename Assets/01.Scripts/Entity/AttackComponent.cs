@@ -31,8 +31,12 @@ public class AttackComponent : MonoBehaviour
             IDamageable target = attackTarget.GetComponent<IDamageable>();
             if (target != null)
             {
-                target.TakeDamage(10); // ¿¹: 10ÀÇ µ¥¹ÌÁö¸¦ ÀÔÈû
+                target.TakeDamage(10); // ì˜ˆ: 10ì˜ ë°ë¯¸ì§€ë¥¼ ì…í˜
             }
         }
+    }
+    public void SetTarget(Transform target)
+    {
+        this.attackTarget = target;
     }
 }

@@ -56,5 +56,10 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
         IsDead = true;
         gameObject.SetActive(false);
     }
+
+    public void SetTarget(Transform target)
+    {
+        attackComponent.SetTarget(target);
+    }
     #endregion
 }
