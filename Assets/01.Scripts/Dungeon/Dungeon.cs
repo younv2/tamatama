@@ -70,4 +70,8 @@ public class Dungeon : MonoBehaviour
     {
         this.DungeonData = dungeonData;
     }
+    private void Update()
+    {
+        Debug.Log("123");
+    }
 }
