@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 파일명 : TamaStat.cs
  * 작성자 : 윤주호 
  * 작성일 : 2024/4/11
@@ -99,6 +99,9 @@ public class TamaStat
         CurHp = 50;
         Personality = Personality.FAITHFUL;
 
+        AttackSpeed = 2;
+        AttackRange = 3;
+
         Debug.Log("타마 스탯 세팅 완료");
     }
     public void InitStat(TamaTribe tribe)
@@ -121,6 +124,9 @@ public class TamaStat
         Stress = 0;
         MaxHp = 50;
         CurHp = 50;
+
+        AttackSpeed = 2;
+        AttackRange = 3;
 
         Debug.Log("타마 스탯 세팅 완료");
     }
