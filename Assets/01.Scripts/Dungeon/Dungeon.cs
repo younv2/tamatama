@@ -45,6 +45,7 @@ public class Dungeon : MonoBehaviour
     {
         foreach (var monster in activeMonsterLst)
         {
+            Debug.Log(monster);
             // 몬스터 상태 업데이트 (예: 사망 체크)
             if (monster.IsDead)
             {
@@ -57,6 +58,7 @@ public class Dungeon : MonoBehaviour
     {
         foreach (var tama in activeTamaLst)
         {
+            Debug.Log(tama);
             // 몬스터 상태 업데이트 (예: 사망 체크)
             if (tama.IsDead)
             {

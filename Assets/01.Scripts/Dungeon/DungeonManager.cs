@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 public class DungeonManager : MonoSingleton<DungeonManager>
 {
@@ -41,5 +42,14 @@ public class DungeonManager : MonoSingleton<DungeonManager>
         }
 
         EnemyManager.Instance.SpawnMonsterById(10001, dungeonData.monsterSpawnPoints[0]);
+    }
+    private void Update()
+    {
+        foreach(var dungeon in dungeonLst)
+        {
+            dungeon.UpdateMonsters();
+            dungeon.UpdateTamas();
+        }
+
     }
 }
