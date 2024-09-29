@@ -1,3 +1,13 @@
+/*
+ * 파일명 : AttackComponent.cs
+ * 작성자 : 윤주호 
+ * 작성일 : 2024/7/2
+ * 최종 수정일 : 2024/9/29
+ * 파일 설명 : 움직임이 가능한 Entity관련 무브 관리 스크립트
+ * 수정 내용 :
+ * 2024/7/2 - 패스에 맞춰 움직일 수 있도록 수정
+ * 2024/9/29 - 도중에 움직임을 멈출 수 있도록 StopMoving함수 추가
+ */
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +57,7 @@ public class MoveComponent : MonoBehaviour
             Vector3 targetPosition = path[currentPathIndex];
             Vector3 direction = (targetPosition - transform.position).normalized;
 
-            // Sprite ���� ����
+            // Sprite 방향 조정
             if (spriteRenderer != null)
             {
                 spriteRenderer.flipX = direction.x > 0;
@@ -65,5 +75,9 @@ public class MoveComponent : MonoBehaviour
             isMoving = false;
             animationController?.PlayIdleAnimation();
         }
+    }
+    public void StopMove()
+    {
+        isMoving = false;
     }
 }

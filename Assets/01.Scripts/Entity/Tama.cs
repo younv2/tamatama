@@ -2,7 +2,7 @@
  * 파일명 : Tama.cs
  * 작성자 : 윤주호 
  * 작성일 : 2024/4/11
- * 최종 수정일 : 2024/9/25
+ * 최종 수정일 : 2024/9/29
  * 파일 설명 : 타마(유저의 캐릭터들)
  * 수정 내용 :
  * 2024/4/11 - 스크립트 작성
@@ -11,6 +11,7 @@
  * 2024/7/6 - 애니메이션 관련 추가
  * 2024/7/11 - 컴포넌트 패턴
  * 2024/9/25 - Idamagealbe 수정(Die,IsDead 관련 작업)
+ * 2024/9/29 - AttackComponent에 있던 타겟을 Tama스크립트로 이동 및, 실시간으로 이동 및 공격을 할 수 있도록 수정
  */
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
 
     private AttackComponent attackComponent;
     private MoveComponent moveComponent;
+    private Transform target;
 
     public float MoveSpeed => stat.MoveSpeed;
 
@@ -79,6 +81,7 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     }
     public void SetTarget(Transform target)
     {
+        this.target = target;
         attackComponent.SetTarget(target);
     }
     public Transform GetTarget()
@@ -99,6 +102,23 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     public bool IsDead()
     {
         return isDead;
+    }
+    private void Update()
+    {
+        if (target == null)
+            return;
+
+        if (attackComponent.IsTargetInRange())
+        {
+            Attack();
+            moveComponent.StopMove();
+        }
+        else
+        {
+            MoveTo(target.position);
+        }
+
+        
     }
     #endregion
 }
