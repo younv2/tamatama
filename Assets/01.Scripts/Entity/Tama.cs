@@ -70,9 +70,9 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
         gameObject.SetActive(false);
     }
 
-    public void Attack()
+    public bool Attack()
     {
-        attackComponent.Attack();
+        return attackComponent.Attack();
     }
 
     public void MoveTo(Vector3 destination)
@@ -81,8 +81,9 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     }
     public void SetTarget(Transform target)
     {
-        this.target = target;
+        
         attackComponent.SetTarget(target);
+        this.target = target;
     }
     public Transform GetTarget()
     {
@@ -110,15 +111,18 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
 
         if (attackComponent.IsTargetInRange())
         {
-            Attack();
             moveComponent.StopMove();
+            if(!Attack())
+            {
+                target = null;
+
+            }
+            
         }
         else
         {
             MoveTo(target.position);
         }
-
-        
     }
     #endregion
 }

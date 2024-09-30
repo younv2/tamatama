@@ -43,7 +43,7 @@ public class MoveComponent : MonoBehaviour
     public void MoveTo(Vector3 destination)
     {
         path = pathfinding.FindPath(transform.position, destination);
-        if (path.Count > 0)
+        if (path!= null && path.Count > 0)
         {
             isMoving = true;
             currentPathIndex = 0;

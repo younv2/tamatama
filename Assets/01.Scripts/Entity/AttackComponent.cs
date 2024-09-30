@@ -33,18 +33,11 @@ public class AttackComponent : MonoBehaviour
 
         nextAttackTime = 0f; // 초기화 시점에 즉시 공격 가능
     }
-    public void CheckAttackRange()
-    {
-        if (attackTarget != null && Vector3.Distance(transform.position, attackTarget.position) <= attackRange)
-        {
-            Attack();
-        }
-    }
     public bool IsTargetInRange()
     {
         return Vector3.Distance(transform.position, attackTarget.position) <= attackRange;
     }
-    public void Attack()
+    public bool Attack()
     {
         if (attackTarget != null)
         {
@@ -52,13 +45,16 @@ public class AttackComponent : MonoBehaviour
             IDamageable target = attackTarget.GetComponent<IDamageable>();
             if (target != null&& !target.IsDead())
             {
-                target.TakeDamage(5); 
+                target.TakeDamage(5);
+                return true;
             }
             if (target.IsDead())
             {
                 this.attackTarget = null;
+                return false;
             }
         }
+        return true;
     }
     public void SetTarget(Transform target)
     {
@@ -68,11 +64,4 @@ public class AttackComponent : MonoBehaviour
     {
         return this.attackTarget;
     }
-
-    //if (Time.time >= nextAttackTime && IsTargetInRange())
-   //     {
-    //        
-     //       nextAttackTime = Time.time + 1f / attackSpeed; // 다음 공격 시간 설정
-      //  }
-    
 }

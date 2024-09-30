@@ -100,7 +100,7 @@ public class TamaStat
         Personality = Personality.FAITHFUL;
 
         AttackSpeed = 2;
-        AttackRange = 3;
+        AttackRange = 1;
 
         Debug.Log("타마 스탯 세팅 완료");
     }
@@ -126,7 +126,7 @@ public class TamaStat
         CurHp = 50;
 
         AttackSpeed = 2;
-        AttackRange = 3;
+        AttackRange = 1;
 
         Debug.Log("타마 스탯 세팅 완료");
     }
