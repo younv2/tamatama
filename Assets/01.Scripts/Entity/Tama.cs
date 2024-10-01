@@ -2,7 +2,7 @@
  * 파일명 : Tama.cs
  * 작성자 : 윤주호 
  * 작성일 : 2024/4/11
- * 최종 수정일 : 2024/9/29
+ * 최종 수정일 : 2024/10/1
  * 파일 설명 : 타마(유저의 캐릭터들)
  * 수정 내용 :
  * 2024/4/11 - 스크립트 작성
@@ -12,6 +12,7 @@
  * 2024/7/11 - 컴포넌트 패턴
  * 2024/9/25 - Idamagealbe 수정(Die,IsDead 관련 작업)
  * 2024/9/29 - AttackComponent에 있던 타겟을 Tama스크립트로 이동 및, 실시간으로 이동 및 공격을 할 수 있도록 수정
+ * 2024/10/1 - 쿨타임을 받아올 수 있도록 이벤트 구독
  */
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,8 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     public float MoveSpeed => stat.MoveSpeed;
 
     public bool isDead { get; set; }
+
+    private bool isOnCooldown = false;
     #endregion
 
     #region Methods
@@ -70,9 +73,16 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
         gameObject.SetActive(false);
     }
 
-    public bool Attack()
+    public void Attack()
     {
-        return attackComponent.Attack();
+        if (!isOnCooldown) // 쿨타임 중이 아니면 공격 가능
+        {
+            attackComponent.Attack();
+        }
+        else
+        {
+            Debug.Log("쿨타임 중입니다. 공격할 수 없습니다.");
+        }
     }
 
     public void MoveTo(Vector3 destination)
@@ -104,6 +114,18 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
     {
         return isDead;
     }
+    private void HandleCooldown(bool isOnCooldown)
+    {
+        this.isOnCooldown = isOnCooldown;
+        if (isOnCooldown)
+        {
+            Debug.Log("타마가 쿨타임 중입니다. 공격 불가능.");
+        }
+        else
+        {
+            Debug.Log("쿨타임이 종료되었습니다. 다시 공격 가능.");
+        }
+    }
     private void Update()
     {
         if (target == null)
@@ -112,15 +134,12 @@ public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
         if (attackComponent.IsTargetInRange())
         {
             moveComponent.StopMove();
-            if(!Attack())
-            {
-                target = null;
-
-            }
+            Attack();
             
         }
         else
         {
+            Debug.Log($"{target.name} : {target.position}");
             MoveTo(target.position);
         }
     }

@@ -46,6 +46,7 @@ public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
     public void TakeDamage(float damage)
     {
         CurHp -= (int)damage;
+        Debug.Log($"{monsterData.name}의 현재 남은 체력 : {CurHp}");
         if (CurHp <= 0)
         {
             Die();
