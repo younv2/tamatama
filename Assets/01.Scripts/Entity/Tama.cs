@@ -18,130 +18,87 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Tama : MonoBehaviour, IMovable, IAttackable, IDamageable
+public class Tama : MonoBehaviour, IDamageable
 {
-    #region Variables
     [SerializeField] private TamaStat stat;
 
-    public int CurHp { get; set; }
-    //TamaOutfitPart outfit; //추후 작업
-
+    private HealthManager healthManager;
+    private TargetManager targetManager;
+    private CombatManager combatManager;
     private AttackComponent attackComponent;
     private MoveComponent moveComponent;
-    private Transform target;
 
-    public float MoveSpeed => stat.MoveSpeed;
-
-    public bool isDead { get; set; }
-
-    private bool isOnCooldown = false;
-    #endregion
-
-    #region Methods
     private void Start()
     {
-        moveComponent = gameObject.AddComponent<MoveComponent>();
-        attackComponent = gameObject.AddComponent<AttackComponent>();
-
-        ResetStat();
+        InitializeManagers();
+        ResetStats();
     }
     public void SetTama(TamaStat stat)
     {
         this.stat = stat;
         Debug.Log("Setted Tama Data");
-        isDead = false;
     }
-    private void ResetStat()
+    private void InitializeManagers()
     {
-        moveComponent.Initialize(this);
-        attackComponent.Initialize(this);
+        healthManager = gameObject.AddComponent<HealthManager>();
+        targetManager = gameObject.AddComponent<TargetManager>();
+        combatManager = gameObject.AddComponent<CombatManager>();
+
+        attackComponent = gameObject.AddComponent<AttackComponent>();
+        moveComponent = gameObject.AddComponent<MoveComponent>();
+
+        combatManager.Initialize(attackComponent);
+        moveComponent.Initialize(stat.MoveSpeed);
+    }
+
+    private void ResetStats()
+    {
+        healthManager.Initialize(stat.MaxHp);
+    }
+
+    private void Update()
+    {
+        HandleCombat();
+    }
+
+    private void HandleCombat()
+    {
+        Transform target = targetManager.GetTarget();  // 타겟 정보 가져오기
+
+        if (target != null)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+            if (combatManager.CanAttack())
+            {
+                if (distanceToTarget <= stat.AttackRange)
+                {
+                    combatManager.Attack(target, stat.AttackSpeed);  // 타겟을 전달하여 공격 수행
+                    moveComponent.StopMove();
+                }
+                else
+                {
+                    moveComponent.MoveTo(target.position);  // 타겟을 향해 이동
+                }
+            }
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        CurHp -= (int)damage;
-        if (CurHp <= 0)
-        {
-            Die();
-        }
-    }
-    public void Die()
-    {
-        Debug.Log($"{stat.Name} has died!");
-        // 죽었을 때 처리 로직
-        isDead = true;
-        gameObject.SetActive(false);
+        healthManager.TakeDamage(damage);
     }
 
-    public void Attack()
+    public void SetTarget(Transform newTarget)
     {
-        if (!isOnCooldown) // 쿨타임 중이 아니면 공격 가능
-        {
-            attackComponent.Attack();
-        }
-        else
-        {
-            Debug.Log("쿨타임 중입니다. 공격할 수 없습니다.");
-        }
-    }
-
-    public void MoveTo(Vector3 destination)
-    {
-        moveComponent.MoveTo(destination);
-    }
-    public void SetTarget(Transform target)
-    {
-        
-        attackComponent.SetTarget(target);
-        this.target = target;
+        targetManager.SetTarget(newTarget);
     }
     public Transform GetTarget()
     {
-        return attackComponent.GetTarget();
+        return targetManager.GetTarget();
     }
-
-    public double GetAttackRange()
-    {
-        return stat.AttackRange;
-    }
-
-    public double GetAttackSpeed()
-    {
-        return stat.AttackSpeed;
-    }
-
     public bool IsDead()
     {
-        return isDead;
+        return healthManager.IsDead;
     }
-    private void HandleCooldown(bool isOnCooldown)
-    {
-        this.isOnCooldown = isOnCooldown;
-        if (isOnCooldown)
-        {
-            Debug.Log("타마가 쿨타임 중입니다. 공격 불가능.");
-        }
-        else
-        {
-            Debug.Log("쿨타임이 종료되었습니다. 다시 공격 가능.");
-        }
-    }
-    private void Update()
-    {
-        if (target == null)
-            return;
-
-        if (attackComponent.IsTargetInRange())
-        {
-            moveComponent.StopMove();
-            Attack();
-            
-        }
-        else
-        {
-            Debug.Log($"{target.name} : {target.position}");
-            MoveTo(target.position);
-        }
-    }
-    #endregion
 }

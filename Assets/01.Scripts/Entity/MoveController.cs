@@ -12,25 +12,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public interface IMovable
-{
-    float MoveSpeed { get; }
-    void MoveTo(Vector3 destination);
-    //void TeleportTo(float x, float y);
-}
 public interface IDamageable
 {
     public bool IsDead();
-    public void Die();
     public void TakeDamage(float damage);
 }
-public interface IAttackable
-{
-    public void Attack();
 
-    public double GetAttackRange();
-    public double GetAttackSpeed();
-}
 public interface IAnimationController
 {
     void PlayMoveAnimation();

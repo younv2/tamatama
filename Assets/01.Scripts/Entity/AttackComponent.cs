@@ -8,20 +8,15 @@
  * 2024/9/25 - 공격 범위 및 속도에 맞춰 공격할 수 있도록 작업
  * 2024/9/29 - AttackComponent에 있던 타겟을 Tama스크립트로 이동 및, 실시간으로 이동 및 공격을 할 수 있도록 수정
  * 2024/10/1 - Attack에 CoolDown적용
+ * 2024/10/2 - 공격 속도 및 공격 범위의 경우 타마에서 전부 관리할 수 있도록 수정(실시간 수정이 될 수 있음과, 공격이라는 역할만 주는것이
+ * 더욱 효율적일 것으로 사료되어 수정.)
  */
 using System;
 using UnityEngine;
 
 public class AttackComponent : MonoBehaviour
 {
-    private double attackRange;
-    private double attackSpeed;
-    private Transform attackTarget;
     private AnimationController animationController;
-
-    // 쿨타임 상태를 전달할 Action
-    public Action<bool> OnCooldown;
-
 
     private void Start()
     {
@@ -31,43 +26,18 @@ public class AttackComponent : MonoBehaviour
             animationController = new AnimationController(animator);
         }
     }
-    public void Initialize(IAttackable attackableEntity)
-    {
-        attackRange = attackableEntity.GetAttackRange();
-        attackSpeed = attackableEntity.GetAttackSpeed();
-    }
-    public bool IsTargetInRange()
-    {
-        return Vector3.Distance(transform.position, attackTarget.position) <= attackRange;
-    }
-    public void Attack()
+    // 타겟에 대한 공격을 처리
+    public void Attack(Transform attackTarget)
     {
         if (attackTarget != null)
         {
+            // 공격 애니메이션 및 데미지 처리
             animationController?.PlayAttackAnimation();
             IDamageable target = attackTarget.GetComponent<IDamageable>();
-            if (target != null&& !target.IsDead())
+            if (target != null && !target.IsDead())
             {
-                target.TakeDamage(5);
-                OnCooldown?.Invoke(true); // 쿨타임 시작 알림
-                Invoke("EndCooldown", (float)attackSpeed); // 쿨타임 종료 알림
-            }
-            if (target.IsDead())
-            {
-                this.attackTarget = null;
+                target.TakeDamage(5); // 공격 데미지
             }
         }
-    }
-    private void EndCooldown()
-    {
-        OnCooldown?.Invoke(false); // 쿨타임 종료 알림
-    }
-    public void SetTarget(Transform target)
-    {
-        this.attackTarget = target;
-    }
-    public Transform GetTarget()
-    {
-        return this.attackTarget;
     }
 }

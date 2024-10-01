@@ -20,10 +20,11 @@ public class MoveComponent : MonoBehaviour
     private Pathfinding pathfinding;
     private SpriteRenderer spriteRenderer;
     private AnimationController animationController;
-    public void Initialize(IMovable moveableEntity)
+    public void Initialize(float moveSpeed)
     {
-        speed = moveableEntity.MoveSpeed;
+        speed = moveSpeed;
         pathfinding = new Pathfinding(BuildManager.Instance.GridLayout, BuildManager.Instance.MainTilemap, BuildManager.tileBases);
+
         Animator animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (animator != null)
@@ -83,5 +84,6 @@ public class MoveComponent : MonoBehaviour
     public void StopMove()
     {
         isMoving = false;
+        animationController?.PlayIdleAnimation();
     }
 }

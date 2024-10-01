@@ -11,75 +11,100 @@
  */
 using System;
 using UnityEngine;
-public class Monster : MonoBehaviour, IMovable, IAttackable, IDamageable
+
+public class Monster : MonoBehaviour, IDamageable
 {
-    #region Variables
-    public static Action<Monster> OnMonsterDeath;
+    public static Action<Monster> OnMonsterDeath; // 사망 이벤트 선언
     private MonsterData monsterData;
+
+    private HealthManager healthManager;   // 체력 관리
+    private CombatManager combatManager;   // 전투 관리
+    private TargetManager targetManager;   // 타겟 관리
     private AttackComponent attackComponent;
     private MoveComponent moveComponent;
 
-    public float MoveSpeed => throw new System.NotImplementedException();
-
-    public int CurHp { get; set; }
-    public bool isDead {  get; set; }
-    public void Attack()
+    private void Update()
     {
-        attackComponent.Attack();
+        HandleCombat();  // 전투 로직 처리
     }
 
-    public void MoveTo(Vector3 direction)
+    // 매니저 초기화
+    private void InitializeManagers()
     {
-        moveComponent.MoveTo(direction);
-    }
-    #endregion
+        healthManager = gameObject.AddComponent<HealthManager>();
+        targetManager = gameObject.AddComponent<TargetManager>();
+        combatManager = gameObject.AddComponent<CombatManager>();
 
-    #region Methods
+        attackComponent = gameObject.AddComponent<AttackComponent>();
+        moveComponent = gameObject.AddComponent<MoveComponent>();
+
+        // 매니저 초기화
+        combatManager.Initialize(attackComponent);
+    }
+
     public void SetMonsterData(MonsterData data)
     {
-        isDead = false;
         monsterData = data;
-        CurHp = data.maxHp;
-        Debug.Log("Setted Monster Data");
+        InitializeManagers();
+        healthManager.Initialize(data.maxHp); // 체력 초기화
+        Debug.Log("Set Monster Data");
     }
 
-    public void TakeDamage(float damage)
+    // 전투 처리
+    private void HandleCombat()
     {
-        CurHp -= (int)damage;
-        Debug.Log($"{monsterData.name}의 현재 남은 체력 : {CurHp}");
-        if (CurHp <= 0)
+        Transform target = targetManager.GetTarget(); // 타겟 가져오기
+        if (target == null)
         {
-            Die();
-            OnMonsterDeath?.Invoke(this);
+            Debug.Log("타겟이 없습니다.");
+            return;
+        }
+
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        if (combatManager.CanAttack())
+        {
+            if (distanceToTarget <= monsterData.attackRange)
+            {
+                combatManager.Attack(target, monsterData.attackSpeed); // 공격 수행
+            }
+            else
+            {
+                moveComponent.MoveTo(target.position); // 타겟을 향해 이동
+            }
         }
     }
 
+    // 데미지를 입을 때 처리
+    public void TakeDamage(float damage)
+    {
+        healthManager.TakeDamage(damage); // 체력 매니저를 통해 데미지 처리
+        Debug.Log($"{monsterData.monsterName}의 현재 남은 체력 : {healthManager.CurHp}");
+
+        if (healthManager.IsDead)
+        {
+            Die();
+        }
+    }
     public void Die()
     {
-        Debug.Log($"{monsterData.monsterName} has died!");
-        // 죽었을 때 처리 로직
-        isDead = true;
-        gameObject.SetActive(false);
+        OnMonsterDeath?.Invoke(this); // 사망 이벤트 호출
+        gameObject.SetActive(false);  // 몬스터 비활성화
     }
 
-    public void SetTarget(Transform target)
+    // 타겟 관련 메서드
+    public void SetTarget(Transform newTarget)
     {
-        attackComponent.SetTarget(target);
+        targetManager.SetTarget(newTarget);
     }
 
-    public double GetAttackRange()
+    public Transform GetTarget()
     {
-        return monsterData.attackRange;
-    }
-
-    public double GetAttackSpeed()
-    {
-        return monsterData.attackSpeed;
+        return targetManager.GetTarget();
     }
 
     public bool IsDead()
     {
-        return isDead;
+        return healthManager.IsDead;
     }
-    #endregion
 }
