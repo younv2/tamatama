@@ -8,6 +8,7 @@
  * 2024/4/11 - 스크립트 작성
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
  * 2024/5/11 - 저장이 제대로 되지않아 Newtonsoft.Json으로 수정 및 해당 라이브러리에 맞게 수정
+ * 2024/10/5 - 이동 속도, 공격 속도, 공격 범위에 대한 공식 추가
  */
 using Newtonsoft.Json;
 using UnityEngine;
@@ -66,10 +67,10 @@ public class TamaStat
     [JsonIgnore] public int Constitution { get; set; }      // 체력 - hp 및 방어력 관여
     [JsonIgnore] public int Resilience { get; set; }         // 인내력 - 스트레스 관여
 
-    [JsonIgnore] public float MoveSpeed { get; set; }         // 이동 속도
+    [JsonIgnore] public float MoveSpeed { get => 1f + (0.1f * (Dexterity * 0.005f)); set => MoveSpeed = value; }         // 이동 속도
 
-    [JsonIgnore] public float AttackSpeed { get; set; }         // 공격 속도
-    [JsonIgnore] public float AttackRange  { get; set; }         // 공격 범위
+    [JsonIgnore] public float AttackSpeed { get => 0.6f + (0.1f * (Dexterity*0.01f)); set => AttackSpeed = value; }         // 공격 속도
+    [JsonIgnore] public float AttackRange  { get => 1; set => AttackRange = value; }         // 공격 범위
     #endregion
 
     #region Constructor
@@ -88,21 +89,7 @@ public class TamaStat
     
     public void InitStat()
     {
-        Id = GameManager.Instance.user.Tamas.Count + 1;
-        Name = "test";
-        Level = 5;
-        Exp = 0;
-        MoveSpeed = 1;
-        SetRandAllStatus();
-        Stress = 0;
-        MaxHp = 50;
-        CurHp = 50;
-        Personality = Personality.FAITHFUL;
-
-        AttackSpeed = 2;
-        AttackRange = 1;
-
-        Debug.Log("타마 스탯 세팅 완료");
+        InitStat(TamaTribe.HUMAN);
     }
     public void InitStat(TamaTribe tribe)
     {
@@ -111,24 +98,28 @@ public class TamaStat
         TamaLevelStatsData statData = DataManager.Instance.FindTamaLevelStatWithId((int)tribe,1);
         Name = "test";
         Level = 1;
+        SetLevelByStats(Level);
+        SetRandAllStatus();
+        SetRandPersonality();
+        Exp = 0;
+        Stress = 0;
+        MaxHp = 50;
+        CurHp = 50;
+
+        Debug.Log("타마 스탯 세팅 완료");
+    }
+    public void SetLevelByStats(int level)
+    {
+        TamaLevelStatsData statData = DataManager.Instance.FindTamaLevelStatWithId((int)Tribe, level);
+
+        Level = level;
         Strength = statData.Str;
         Dexterity = statData.Dex;
         Intelligence = statData.Inteli;
         Luck = statData.Luck;
         Constitution = statData.Con;
         Resilience = statData.Res;
-        Exp = 0;
-        MoveSpeed = 1;
-        SetRandAllStatus();
-        SetRandPersonality();
-        Stress = 0;
-        MaxHp = 50;
-        CurHp = 50;
-
-        AttackSpeed = 2;
-        AttackRange = 1;
-
-        Debug.Log("타마 스탯 세팅 완료");
+        MaxExp = statData.MaxExp;
     }
     /// <summary>
     /// 스탯 랜덤 지정

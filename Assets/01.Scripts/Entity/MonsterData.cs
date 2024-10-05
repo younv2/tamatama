@@ -24,6 +24,8 @@ public class MonsterData : ScriptableObject
     public float attackSpeed;               // 공격 속도
     public double attackRange;              // 공격 범위
     public double searchTargetRange;        // 타겟 탐색 범위
+    public int exp;                         // 획득 exp
+    public int gold;                        // 획득 골드
     public GameObject prefab;
     #endregion
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 파일명 : TamaLevelStats.cs
  * 작성자 : 윤주호 
  * 작성일 : 2024/8/29
@@ -18,7 +18,9 @@ public class TamaLevelStatsData
     public int Luck { get; }
     public int Con { get; }
     public int Res { get; }
-    public TamaLevelStatsData(int code, int level, int str, int dex, int inteli, int luck, int con, int res)
+
+    public int MaxExp {  get; }
+    public TamaLevelStatsData(int code, int level, int str, int dex, int inteli, int luck, int con, int res, int maxExp)
     {
         Id = code;
         Lv = level;
@@ -28,5 +30,6 @@ public class TamaLevelStatsData
         Luck = luck;
         Con = con;
         Res = res;
+        MaxExp = maxExp;
     }
 }

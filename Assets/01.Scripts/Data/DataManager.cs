@@ -111,7 +111,7 @@ public class DataManager : MonoSingleton<DataManager>
         for (int i = 0; i < data.Count; i++)
         {
             TamaLevelStatsData item = new TamaLevelStatsData((int)data[i]["TribeId"], (int)data[i]["Level"],
-                (int)data[i]["Str"], (int)data[i]["Dex"], (int)data[i]["Int"], (int)data[i]["Luc"], (int)data[i]["Con"], (int)data[i]["Res"]);
+                (int)data[i]["Str"], (int)data[i]["Dex"], (int)data[i]["Int"], (int)data[i]["Luc"], (int)data[i]["Con"], (int)data[i]["Res"], (int)data[i]["MaxExp"]);
 
             tamaLvStatsLst.Add(item);
         }

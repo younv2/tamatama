@@ -1,12 +1,12 @@
 /*
- * ÆÄÀÏ¸í : BackgroundUI.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/11
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/3
- * ÆÄÀÏ ¼³¸í : ¹è°æ»ó¿¡ ÀÖ´Â UI°ü¸® ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/11 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
+ * íŒŒì¼ëª… : BackgroundUI.cs
+ * ìž‘ì„±ìž : ìœ¤ì£¼í˜¸ 
+ * ìž‘ì„±ì¼ : 2024/4/11
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/5/3
+ * íŒŒì¼ ì„¤ëª… : ë°°ê²½ìƒì— ìžˆëŠ” UIê´€ë¦¬ ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/11 - ìŠ¤í¬ë¦½íŠ¸ ìž‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìžë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ìž‘ì„±)
  */
 
 using TMPro;
@@ -56,6 +56,7 @@ public class BackgroundUI : MonoSingleton<BackgroundUI>
     {
         goldText.text = user.Inventory.Gold.ToString();
         cashText.text = user.Inventory.Cash.ToString();
+        Debug.Log("Called SetCurrentMoneyInUI");
     }
     void SettingBtn()
     {

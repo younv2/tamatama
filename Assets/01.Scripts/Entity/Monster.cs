@@ -8,14 +8,17 @@
  * 2024/7/2 - 스크립트 작성
  * 2024/9/16 - CurHp 추가
  * 2024/9/25 - Idamagealbe 수정(Die,IsDead 관련 작업)
+ * 2024/10/4 - IAttackable 추가 및 공격자 정보를 같이 넘기도록 수정
  */
 using System;
 using UnityEngine;
 
-public class Monster : MonoBehaviour, IDamageable
+public class Monster : MonoBehaviour, IDamageable, IAttackable
 {
     public static Action<Monster> OnMonsterDeath; // 사망 이벤트 선언
     private MonsterData monsterData;
+
+    private IAttackable attacker;
 
     private HealthManager healthManager;   // 체력 관리
     private CombatManager combatManager;   // 전투 관리
@@ -66,7 +69,7 @@ public class Monster : MonoBehaviour, IDamageable
         {
             if (distanceToTarget <= monsterData.attackRange)
             {
-                combatManager.Attack(target, monsterData.attackSpeed); // 공격 수행
+                combatManager.Attack(target, monsterData.attackSpeed,this); // 공격 수행
             }
             else
             {
@@ -86,9 +89,20 @@ public class Monster : MonoBehaviour, IDamageable
             Die();
         }
     }
+    public void TakeDamage(float damage, IAttackable attacker)
+    {
+        this.attacker = attacker;
+        TakeDamage(damage);
+    }
     public void Die()
     {
         OnMonsterDeath?.Invoke(this); // 사망 이벤트 호출
+        if(attacker is Tama)
+        {
+            Tama tama = attacker as Tama;
+            tama.GainExp(monsterData.exp);
+            tama.GainGold(monsterData.gold);
+        }
         gameObject.SetActive(false);  // 몬스터 비활성화
     }
 
@@ -107,4 +121,6 @@ public class Monster : MonoBehaviour, IDamageable
     {
         return healthManager.IsDead;
     }
+
+   
 }

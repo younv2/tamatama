@@ -27,7 +27,7 @@ public class AttackComponent : MonoBehaviour
         }
     }
     // 타겟에 대한 공격을 처리
-    public void Attack(Transform attackTarget)
+    public void Attack(Transform attackTarget, IAttackable attacker)
     {
         if (attackTarget != null)
         {
@@ -36,7 +36,7 @@ public class AttackComponent : MonoBehaviour
             IDamageable target = attackTarget.GetComponent<IDamageable>();
             if (target != null && !target.IsDead())
             {
-                target.TakeDamage(5); // 공격 데미지
+                target.TakeDamage(5,attacker); // 공격 데미지
             }
         }
     }

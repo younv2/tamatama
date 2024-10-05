@@ -85,7 +85,7 @@ public class User
         }
         // 타마 매니저와 동기화
         TamaManager.Instance.SyncWithUserTamas(Tamas);
-
+        this.Inventory.OnMoneyChanged += BackgroundUI.Instance.SetCurrentMoneyInUI;
         HatchingManager.Instance.ReductionHatchingTime();
     }
     #endregion

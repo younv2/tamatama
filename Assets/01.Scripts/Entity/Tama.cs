@@ -13,12 +13,13 @@
  * 2024/9/25 - Idamagealbe 수정(Die,IsDead 관련 작업)
  * 2024/9/29 - AttackComponent에 있던 타겟을 Tama스크립트로 이동 및, 실시간으로 이동 및 공격을 할 수 있도록 수정
  * 2024/10/1 - 쿨타임을 받아올 수 있도록 이벤트 구독
+ * 2024/10/4 - IAttackable 추가 및 공격자 정보를 같이 넘기도록 수정
  */
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Tama : MonoBehaviour, IDamageable
+public class Tama : MonoBehaviour, IDamageable, IAttackable
 {
     [SerializeField] private TamaStat stat;
 
@@ -36,6 +37,7 @@ public class Tama : MonoBehaviour, IDamageable
     public void SetTama(TamaStat stat)
     {
         this.stat = stat;
+        this.stat.SetLevelByStats(stat.Level);
         Debug.Log("Setted Tama Data");
     }
     private void InitializeManagers()
@@ -73,7 +75,7 @@ public class Tama : MonoBehaviour, IDamageable
             {
                 if (distanceToTarget <= stat.AttackRange)
                 {
-                    combatManager.Attack(target, stat.AttackSpeed);  // 타겟을 전달하여 공격 수행
+                    combatManager.Attack(target, stat.AttackSpeed,this);  // 타겟을 전달하여 공격 수행
                     moveComponent.StopMove();
                 }
                 else
@@ -88,7 +90,10 @@ public class Tama : MonoBehaviour, IDamageable
     {
         healthManager.TakeDamage(damage);
     }
-
+    public void TakeDamage(float damage, IAttackable attacker)
+    {
+        TakeDamage(damage);
+    }
     public void SetTarget(Transform newTarget)
     {
         targetManager.SetTarget(newTarget);
@@ -101,4 +106,26 @@ public class Tama : MonoBehaviour, IDamageable
     {
         return healthManager.IsDead;
     }
+    public void GainExp(int exp)
+    {
+        stat.Exp += exp;
+        if(stat.Exp>=stat.MaxExp)
+        {
+            LevelUp(stat.Level + 1);
+        }
+    }
+
+    public void GainGold(int gold)
+    {
+        GameManager.Instance.user.Inventory.EarnGold(gold);
+        Debug.Log($"지금 골드 : {GameManager.Instance.user.Inventory.Gold}");
+    }
+    public void LevelUp(int level)
+    {
+
+        stat.SetLevelByStats(level);
+        stat.Exp = 0;
+    }
+
+    
 }
