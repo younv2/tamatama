@@ -9,8 +9,10 @@
  * 2024/5/3 - 전체적인 스크립트 정리(자동 구현 프로퍼티로 수정 및 region 작성)
  * 2024/5/11 - 저장이 제대로 되지않아 Newtonsoft.Json으로 수정 및 해당 라이브러리에 맞게 수정
  * 2024/10/5 - 이동 속도, 공격 속도, 공격 범위에 대한 공식 추가
+ * 2024/10/6 - 크리티컬 추가
  */
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 //적성 구조체
@@ -69,8 +71,12 @@ public class TamaStat
 
     [JsonIgnore] public float MoveSpeed { get => 1f + (0.1f * (Dexterity * 0.005f)); set => MoveSpeed = value; }         // 이동 속도
 
+    [JsonIgnore] public int AttackPower { get => Strength;}         // 공격력
     [JsonIgnore] public float AttackSpeed { get => 0.6f + (0.1f * (Dexterity*0.01f)); set => AttackSpeed = value; }         // 공격 속도
     [JsonIgnore] public float AttackRange  { get => 1; set => AttackRange = value; }         // 공격 범위
+
+    [JsonIgnore] public float CriticalChance { get => Math.Min(20,(Dexterity*0.01f)) * 0.0f;}         // 크리티컬 찬스
+    [JsonIgnore] public float CriticalDamage { get => 1.5f; }         // 크리티컬 데미지
     #endregion
 
     #region Constructor
@@ -126,7 +132,7 @@ public class TamaStat
     /// </summary>
     StatRank GetRandStatRank(StatRank minRank = 0, StatRank maxRank = StatRank.MAX_COUNT-1)
     {
-        return (StatRank)Random.Range((int)minRank, (int)maxRank+1);
+        return (StatRank)UnityEngine.Random.Range((int)minRank, (int)maxRank+1);
     }
     /// <summary>
     /// 전체 스탯 랜덤 지정
@@ -145,7 +151,7 @@ public class TamaStat
     }
     public void SetRandPersonality()
     {
-        Personality = (Personality)Random.Range(0, (int)Personality.MAX_COUNT);
+        Personality = (Personality)UnityEngine.Random.Range(0, (int)Personality.MAX_COUNT);
     }
     public void AddStress()
     {

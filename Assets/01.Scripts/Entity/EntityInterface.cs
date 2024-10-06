@@ -21,9 +21,7 @@ public interface IAttackable
 public interface IDamageable
 {
     public bool IsDead();
-    public void TakeDamage(float damage);
-
-    public void TakeDamage(float damage, IAttackable attacker);
+    public void TakeDamage(int damage, IAttackable attacker,bool isCritical);
 }
 
 public interface IAnimationController

@@ -28,11 +28,11 @@ public class CombatManager : MonoBehaviour
         return !isCooldownActive;
     }
 
-    public void Attack(Transform target, float attackSpeed,IAttackable attacker)
+    public void Attack(Transform target,int attackPower, float attackSpeed,IAttackable attacker)
     {
         if (target != null && !IsTargetDead(target))
         {
-            attackComponent.Attack(target,attacker); // 공격 수행
+            attackComponent.Attack(target,attackPower,attacker); // 공격 수행
 
             // 공격 후 쿨타임 시작
             attackCooldown = 1/attackSpeed; // 공격 속도만큼 쿨타임을 설정

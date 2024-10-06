@@ -69,7 +69,7 @@ public class Monster : MonoBehaviour, IDamageable, IAttackable
         {
             if (distanceToTarget <= monsterData.attackRange)
             {
-                combatManager.Attack(target, monsterData.attackSpeed,this); // 공격 수행
+                combatManager.Attack(target,monsterData.attackPower, monsterData.attackSpeed,this); // 공격 수행
             }
             else
             {
@@ -78,21 +78,16 @@ public class Monster : MonoBehaviour, IDamageable, IAttackable
         }
     }
 
-    // 데미지를 입을 때 처리
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage, IAttackable attacker, bool isCritical)
     {
-        healthManager.TakeDamage(damage); // 체력 매니저를 통해 데미지 처리
+        this.attacker = attacker;
+        healthManager.TakeDamage(damage, isCritical);
         Debug.Log($"{monsterData.monsterName}의 현재 남은 체력 : {healthManager.CurHp}");
 
         if (healthManager.IsDead)
         {
             Die();
         }
-    }
-    public void TakeDamage(float damage, IAttackable attacker)
-    {
-        this.attacker = attacker;
-        TakeDamage(damage);
     }
     public void Die()
     {

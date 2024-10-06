@@ -7,6 +7,7 @@
  * 수정 내용 :
  * 2024/10/2 - 엔티티들의 코드 중복 해결 및 유지보수를 위한 세분화 작업
  */
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -26,20 +27,22 @@ public class HealthManager : MonoBehaviour
         IsDead = false;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage,bool isCritical)
     {
-        CurHp -= (int)damage;
-        ShowDamageUI(damage);
+        CurHp = Math.Max(0,CurHp - (int)damage);
+        ShowDamageUI(damage, isCritical ? DamageType.CRITICAL : DamageType.NORMAL);
         if (CurHp <= 0)
         {
             Die();
         }
     }
-    private void ShowDamageUI(float damage)
+    private void ShowDamageUI(int damage,DamageType damageType)
     {
         var go = HUDObjectPoolManager.Instance.GetGo("DamageText");
-        go.GetComponent<TextMeshProUGUI>().text = damage.ToString();
+        DamageTextUI damageTextUI = go.GetComponent<DamageTextUI>();
         go.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+        damageTextUI.ShowDamage(damage, damageType);
+        
     }
     private void Die()
     {

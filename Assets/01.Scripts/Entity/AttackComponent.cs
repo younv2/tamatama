@@ -12,6 +12,8 @@
  * 더욱 효율적일 것으로 사료되어 수정.)
  */
 using System;
+using Unity.Mathematics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class AttackComponent : MonoBehaviour
@@ -27,17 +29,32 @@ public class AttackComponent : MonoBehaviour
         }
     }
     // 타겟에 대한 공격을 처리
-    public void Attack(Transform attackTarget, IAttackable attacker)
+    public void Attack(Transform attackTarget,int attackPower, IAttackable attacker)
     {
         if (attackTarget != null)
         {
             // 공격 애니메이션 및 데미지 처리
             animationController?.PlayAttackAnimation();
             IDamageable target = attackTarget.GetComponent<IDamageable>();
+            bool isCritical = IsCritical(attacker, ref attackPower);
             if (target != null && !target.IsDead())
             {
-                target.TakeDamage(5,attacker); // 공격 데미지
+                target.TakeDamage(attackPower, attacker, isCritical); // 공격 데미지
             }
         }
+    }
+    public bool IsCritical(IAttackable attacker, ref int attackPower)
+    {
+        Tama tama = attacker as Tama;
+        if(tama != null)
+        {
+            if(UnityEngine.Random.Range(0f,1f) <= tama.stat.CriticalChance)
+            {
+                attackPower = (int)Math.Round(attackPower * tama.stat.CriticalDamage);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

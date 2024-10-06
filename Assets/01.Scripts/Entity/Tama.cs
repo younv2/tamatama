@@ -21,7 +21,7 @@ using UnityEngine;
 [System.Serializable]
 public class Tama : MonoBehaviour, IDamageable, IAttackable
 {
-    [SerializeField] private TamaStat stat;
+    [SerializeField] public TamaStat stat;
 
     private HealthManager healthManager;
     private TargetManager targetManager;
@@ -75,7 +75,7 @@ public class Tama : MonoBehaviour, IDamageable, IAttackable
             {
                 if (distanceToTarget <= stat.AttackRange)
                 {
-                    combatManager.Attack(target, stat.AttackSpeed,this);  // 타겟을 전달하여 공격 수행
+                    combatManager.Attack(target,stat.AttackPower, stat.AttackSpeed,this);  // 타겟을 전달하여 공격 수행
                     moveComponent.StopMove();
                 }
                 else
@@ -85,14 +85,9 @@ public class Tama : MonoBehaviour, IDamageable, IAttackable
             }
         }
     }
-
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage, IAttackable attacker,bool isCritical)
     {
-        healthManager.TakeDamage(damage);
-    }
-    public void TakeDamage(float damage, IAttackable attacker)
-    {
-        TakeDamage(damage);
+        healthManager.TakeDamage(damage, isCritical);
     }
     public void SetTarget(Transform newTarget)
     {
@@ -122,7 +117,7 @@ public class Tama : MonoBehaviour, IDamageable, IAttackable
     }
     public void LevelUp(int level)
     {
-
+        //Todo - 레벨업 이펙트 추가
         stat.SetLevelByStats(level);
         stat.Exp = 0;
     }
