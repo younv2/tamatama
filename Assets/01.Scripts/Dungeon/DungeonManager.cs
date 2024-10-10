@@ -7,6 +7,7 @@
  * 수정 내용 :
  * 2024/9/16 - 던전에 타마 입장 관련 메서드 추가
  * 2024/9/25 - 던전을 전체적으로 관리하도록 작업 및 던전에 몬스터가 있을 경우 타마가 바로 타겟팅 할 수 있도록 수정
+ * 2024/10/10 - 몬스터에게 타마 타겟 설정
  */
 
 using System;
@@ -43,7 +44,7 @@ public class DungeonManager : MonoSingleton<DungeonManager>
                 new Vector2(UnityEngine.Random.Range(-1f,1f), UnityEngine.Random.Range(-1f, 1f));
             dungeon.AddTama(tama);
         }
-        dungeon.SpawnMonster(10001, dungeonData.monsterSpawnPoints[0], 5);
+        dungeon.SpawnMonster(10001, dungeonData.monsterSpawnPoints[0], 1000);
     }
     private void Update()
     {
@@ -64,7 +65,18 @@ public class DungeonManager : MonoSingleton<DungeonManager>
                 tama.SetTarget(dungeon.activeMonsterLst.OrderBy(obj => Vector3.Distance(tama.gameObject.transform.position, obj.transform.position))
                             .FirstOrDefault().transform);
             }
-            
+            foreach (Monster monster in dungeon.activeMonsterLst)
+            {
+                if (dungeon.activeTamaLst.Count == 0)
+                    continue;
+                if (monster.GetTarget() != null)
+                {
+                    continue;
+                }
+                monster.SetTarget(dungeon.activeTamaLst.OrderBy(obj => Vector3.Distance(monster.gameObject.transform.position, obj.transform.position))
+                            .FirstOrDefault().transform);
+            }
+
         }
 
     }

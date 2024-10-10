@@ -7,6 +7,7 @@
  * 수정 내용 :
  * 2024/7/2 - 스크립트 작성
  * 2024/9/16 - 스크립터블 오브젝트로 수정
+ * 2024/10/10 - 움직일 수 있도록 이동 속도 추가
  */
 using UnityEngine;
 
@@ -24,6 +25,7 @@ public class MonsterData : ScriptableObject
     public float attackSpeed;               // 공격 속도
     public double attackRange;              // 공격 범위
     public double searchTargetRange;        // 타겟 탐색 범위
+    public float moveSpeed;                 // 이동속도
     public int exp;                         // 획득 exp
     public int gold;                        // 획득 골드
     public GameObject prefab;

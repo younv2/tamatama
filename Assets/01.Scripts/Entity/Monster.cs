@@ -9,6 +9,7 @@
  * 2024/9/16 - CurHp 추가
  * 2024/9/25 - Idamagealbe 수정(Die,IsDead 관련 작업)
  * 2024/10/4 - IAttackable 추가 및 공격자 정보를 같이 넘기도록 수정
+ * 2024/10/10 - 타겟에게 움직일 수 있도록 수정
  */
 using System;
 using UnityEngine;
@@ -43,6 +44,7 @@ public class Monster : MonoBehaviour, IDamageable, IAttackable
 
         // 매니저 초기화
         combatManager.Initialize(attackComponent);
+        moveComponent.Initialize(monsterData.moveSpeed);
     }
 
     public void SetMonsterData(MonsterData data)

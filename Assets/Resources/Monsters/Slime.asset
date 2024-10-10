@@ -21,6 +21,7 @@ MonoBehaviour:
   attackSpeed: 1
   attackRange: 1
   searchTargetRange: 3
+  moveSpeed: 1
   exp: 1
   gold: 5
   prefab: {fileID: 5782495951367745034, guid: ea63fdde901816d43a93d7be21e0214e, type: 3}
