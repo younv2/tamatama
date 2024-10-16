@@ -11,6 +11,7 @@
  * 2024/9/16 - 던전, 몬스터 정보 로드 추가
  */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -54,6 +55,24 @@ public class DataManager : MonoSingleton<DataManager>
         for (int i = 0; i < data.Count; i++)
         {
             Item item = new EggItem((int)data[i]["Id"], (int)data[i]["TribeId"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString(), (int)data[i]["MaxAmount"]);
+
+            ItemLst.Add(item);
+        }
+        data = CSVReader.Read("CSV/EquipmentItem");
+        for (int i = 0; i < data.Count; i++)
+        {
+            EquipmentStat equipmentStat = new EquipmentStat(
+                (int)data[i]["AttackPower"], 
+                float.Parse(data[i]["AttackSpeed"].ToString()),
+                float.Parse(data[i]["AttackRange"].ToString()),
+               (int)data[i]["Defense"],
+               float.Parse(data[i]["MoveSpeed"].ToString()), 
+               float.Parse(data[i]["CriticalChance"].ToString()), 
+               float.Parse(data[i]["CriticalDamage"].ToString())
+               );
+            Item item = new EquipmentItem((int)data[i]["Id"], data[i]["Name"].ToString(), data[i]["Desc"].ToString(), data[i]["SpriteName"].ToString(),
+                (EquipmentType)Enum.Parse(typeof(EquipmentType),data[i]["Type"].ToString()), (WeaponType)Enum.Parse(typeof(WeaponType), data[i]["WeaponType"].ToString()),
+                equipmentStat, (Rarity)Enum.Parse(typeof(Rarity), data[i]["Rarity"].ToString()));
 
             ItemLst.Add(item);
         }

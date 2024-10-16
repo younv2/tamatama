@@ -44,7 +44,7 @@ public class DungeonManager : MonoSingleton<DungeonManager>
                 new Vector2(UnityEngine.Random.Range(-1f,1f), UnityEngine.Random.Range(-1f, 1f));
             dungeon.AddTama(tama);
         }
-        dungeon.SpawnMonster(10001, dungeonData.monsterSpawnPoints[0], 1000);
+        dungeon.SpawnMonster(10001, dungeonData.monsterSpawnPoints[0], 20);
     }
     private void Update()
     {
