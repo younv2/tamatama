@@ -26,7 +26,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
                 if (_instance)
                     return _instance;
 
-                _instance = (T)FindObjectOfType(typeof(T));
+                _instance = (T)FindAnyObjectByType(typeof(T));
 
                 if (!_instance)
                 {
@@ -39,7 +39,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
                     Debug.Log($"[MonoSingleton]An instance of {typeof(T)} is needed in the scene, so '{_instance.name}' was created with DontDestroyOnLoad.");
                 }
 
-                if (FindObjectsOfType(typeof(T)).Length > 1)
+                if (FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 1)
                 {
                     Debug.LogError(
                         $"[MonoSingleton]Something went really wrong - there should never be more than 1 singleton! Reopening the scene might fix it.");

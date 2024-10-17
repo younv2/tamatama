@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace AutoLetterbox {
@@ -26,7 +26,7 @@ namespace AutoLetterbox {
         }
         void OnMouseUp() {
             if (rigid != null) {
-                rigid.velocity = Vector3.zero;
+                rigid.linearVelocity = Vector3.zero;
                 rigid.angularVelocity = 0;
             }
             beingDragged = false;
@@ -35,7 +35,7 @@ namespace AutoLetterbox {
         void OnCollisionEnter2D(Collision2D coll) {
 
             EnableGravity();
-            if (rigid != null && rigid.velocity.sqrMagnitude > 1) {
+            if (rigid != null && rigid.linearVelocity.sqrMagnitude > 1) {
                 PlayHitAudio(0.5f, 1.5f);
             }
             GameObject dragonObject = coll.gameObject;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using AutoLetterbox;
@@ -239,7 +239,7 @@ namespace AutoLetterbox
         /// Populates the tracked Camera Array with every Camera currently in the scene
         /// </summary>
         public void FindAllCamerasInScene () {
-            Camera[] allCameras = FindObjectsOfType<Camera>();
+            Camera[] allCameras = FindObjectsByType<Camera>(FindObjectsSortMode.None);
             cameras = new List<CameraRatio>();
 
             for (int i = 0; i < allCameras.Length; i++) {

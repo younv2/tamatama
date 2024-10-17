@@ -8,7 +8,7 @@ public class GridSnap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = FindObjectOfType<Grid>();
+        grid = FindAnyObjectByType<Grid>();
        
     }
 

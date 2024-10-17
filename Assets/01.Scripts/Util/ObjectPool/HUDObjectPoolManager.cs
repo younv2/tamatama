@@ -9,6 +9,7 @@
  */
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -44,8 +45,9 @@ public class HUDObjectPoolManager : MonoSingleton<HUDObjectPoolManager>
     #endregion
 
     #region Methods
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Init();
     }
 

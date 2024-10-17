@@ -22,9 +22,10 @@ using UnityEngine;
 public class Tama : MonoBehaviour, IDamageable, IAttackable
 {
     [SerializeField] public TamaStat stat;
-
+    private EquipmentManager equipmentManager;
     private HealthManager healthManager;
     private TargetManager targetManager;
+
     private CombatManager combatManager;
     private AttackComponent attackComponent;
     private MoveComponent moveComponent;
