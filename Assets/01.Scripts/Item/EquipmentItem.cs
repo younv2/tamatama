@@ -6,9 +6,10 @@
  * 파일 설명 : 장비 아이템 스크립트
  * 수정 내용 :
  * 2024/10/16 - 스크립트 작성
+ * 2024/10/23 - EquipmentType의 요소 추가
  */
 
-public enum EquipmentType {WEAPON, ARMOUR }
+public enum EquipmentType {NONE, WEAPON, ARMOUR, GLOVES, BOOTS, RING, NECKLESS }
 public enum WeaponType {NONE,SWORD, BOW, STAFF}
 public enum Rarity {NONE, COMMON, UNCOMMON, RARE, UNIQUE, LEGENDARY }
 [System.Serializable]

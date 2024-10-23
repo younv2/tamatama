@@ -1,21 +1,25 @@
 /*
- * ÆÄÀÏ¸í : TamaPopup.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/8/25
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/8/25
- * ÆÄÀÏ ¼³¸í : Å¸¸¶ ÆË¾÷ ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/8/25 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/8/26 - Å¸¸¶ Element UI ÀÌº¥Æ® µî·Ï
+ * íŒŒì¼ëª… : TamaPopup.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/8/25
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/8/25
+ * íŒŒì¼ ì„¤ëª… : íƒ€ë§ˆ íŒì—… ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/8/25 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/8/26 - íƒ€ë§ˆ Element UI ì´ë²¤íŠ¸ ë“±ë¡
+ * 2024/10/23 - ì¥ë¹„ì¹¸ ì¶”ê°€
  */
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class TamaPopup : BasePopup
 {
+    private List<ItemSlotUI> itemSlotLst;
+
     private List<TamaStat> tamas;
     [SerializeField] private GameObject tamaElement;
     private List<TamaElementUI> tamaElements =  new List<TamaElementUI>();
@@ -51,6 +55,14 @@ public class TamaPopup : BasePopup
     {
         base.Initialize();
 
+        itemSlotLst = transform.Find("TamaImage").GetComponentsInChildren<ItemSlotUI>().ToList();
+        
+        for (int i = 0; i < itemSlotLst.Count; i++)
+        {
+            itemSlotLst[i].Init();
+        }
+
+
         tamas = GameManager.Instance.user.Tamas;
         tamaTribeTxt = transform.Find("TamaInfo").Find("TamaTribe").GetComponent<TextMeshProUGUI>();
         tamaLevelTxt = transform.Find("TamaInfo").Find("TamaLevel").GetComponent<TextMeshProUGUI>();
@@ -76,18 +88,18 @@ public class TamaPopup : BasePopup
         tamaExpTxt.text = $"{tamaStat.Exp}/{tamaStat.MaxExp} exp";
         tamaPersonalityTxt.text = tamaStat.Personality.ToString();
 
-        tamaStrTxt.text = $"Èû {tamaStat.Strength}({tamaStat.StrRank})";
-        tamaDexTxt.text = $"¹ÎÃ¸ {tamaStat.Dexterity}({tamaStat.DexRank})";
-        tamaIntTxt.text = $"Áö´É {tamaStat.Intelligence}({tamaStat.IntRank})";
-        tamaLucTxt.text = $"¿î {tamaStat.Luck}({tamaStat.LuckRank})";
-        tamaConTxt.text = $"Ã¼·Â {tamaStat.Constitution}({tamaStat.ConRank})";
-        tamaEndTxt.text = $"ÀÎ³»½É {tamaStat.Resilience}({tamaStat.ResRank})";
+        tamaStrTxt.text = $"í˜ {tamaStat.Strength}({tamaStat.StrRank})";
+        tamaDexTxt.text = $"ë¯¼ì²© {tamaStat.Dexterity}({tamaStat.DexRank})";
+        tamaIntTxt.text = $"ì§€ëŠ¥ {tamaStat.Intelligence}({tamaStat.IntRank})";
+        tamaLucTxt.text = $"ìš´ {tamaStat.Luck}({tamaStat.LuckRank})";
+        tamaConTxt.text = $"ì²´ë ¥ {tamaStat.Constitution}({tamaStat.ConRank})";
+        tamaEndTxt.text = $"ì¸ë‚´ì‹¬ {tamaStat.Resilience}({tamaStat.ResRank})";
     }
     public override void Close()
     {
         base.Close();
 
-        //Todo: Destroy°¡ ¾Æ´Ñ ¹æ½ÄÀ¸·ÎÀÇ °³¼± ¿¹Á¤
+        //Todo: Destroyê°€ ì•„ë‹Œ ë°©ì‹ìœ¼ë¡œì˜ ê°œì„  ì˜ˆì •
         foreach(var data in tamaElements)
         {
             Destroy(data.gameObject);

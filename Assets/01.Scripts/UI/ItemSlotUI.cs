@@ -1,12 +1,13 @@
 /*
- * ÆÄÀÏ¸í : ItemSlotUI.cs
- * ÀÛ¼ºÀÚ : À±ÁÖÈ£ 
- * ÀÛ¼ºÀÏ : 2024/4/28
- * ÃÖÁ¾ ¼öÁ¤ÀÏ : 2024/5/3
- * ÆÄÀÏ ¼³¸í : ¾ÆÀÌÅÛÀÇ ÀÌ¹ÌÁö¿Í °¹¼ö¸¦ Ç¥±âÇØÁÖ´Â ¾ÆÀÌÅÛ ½½·Ô UI ½ºÅ©¸³Æ®
- * ¼öÁ¤ ³»¿ë :
- * 2024/4/28 - ½ºÅ©¸³Æ® ÀÛ¼º
- * 2024/5/3 - ÀüÃ¼ÀûÀÎ ½ºÅ©¸³Æ® Á¤¸®(ÀÚµ¿ ±¸Çö ÇÁ·ÎÆÛÆ¼·Î ¼öÁ¤ ¹× region ÀÛ¼º)
+ * íŒŒì¼ëª… : ItemSlotUI.cs
+ * ì‘ì„±ì : ìœ¤ì£¼í˜¸ 
+ * ì‘ì„±ì¼ : 2024/4/28
+ * ìµœì¢… ìˆ˜ì •ì¼ : 2024/5/3
+ * íŒŒì¼ ì„¤ëª… : ì•„ì´í…œì˜ ì´ë¯¸ì§€ì™€ ê°¯ìˆ˜ë¥¼ í‘œê¸°í•´ì£¼ëŠ” ì•„ì´í…œ ìŠ¬ë¡¯ UI ìŠ¤í¬ë¦½íŠ¸
+ * ìˆ˜ì • ë‚´ìš© :
+ * 2024/4/28 - ìŠ¤í¬ë¦½íŠ¸ ì‘ì„±
+ * 2024/5/3 - ì „ì²´ì ì¸ ìŠ¤í¬ë¦½íŠ¸ ì •ë¦¬(ìë™ êµ¬í˜„ í”„ë¡œí¼í‹°ë¡œ ìˆ˜ì • ë° region ì‘ì„±)
+ * 2024/10/23 - ì¥ì°© íƒ€ì… ì¶”ê°€
  */
 
 using TMPro;
@@ -16,10 +17,16 @@ using UnityEngine.UI;
 public class ItemSlotUI : MonoBehaviour
 {
     #region Variables
-    [Tooltip("¾ÆÀÌÅÛ ¾ÆÀÌÄÜ ÀÌ¹ÌÁö")]
+    [Tooltip("ì¥ë¹„ ì•„ì´í…œ ì¥ì°©ì¹¸ ")]
+    [SerializeField] private EquipmentType equipmentType;
+
+    [Tooltip("ì•„ì´í…œ ì•„ì´ì½˜ ì´ë¯¸ì§€")]
     [SerializeField] private Image iconImage;
 
-    [Tooltip("¾ÆÀÌÅÛ °³¼ö ÅØ½ºÆ®")]
+    [Tooltip("ë°±ê·¸ë¼ìš´ë“œ  ì´ë¯¸ì§€")]
+    [SerializeField] private Image backgroundImage;
+
+    [Tooltip("ì•„ì´í…œ ê°œìˆ˜ í…ìŠ¤íŠ¸")]
     [SerializeField] private TextMeshProUGUI amountText;
 
     private GameObject iconGo;
@@ -44,6 +51,11 @@ public class ItemSlotUI : MonoBehaviour
     {
         iconGo = iconImage.gameObject; 
         textGo = amountText.gameObject;
+
+        if(equipmentType != EquipmentType.NONE)
+        {
+            backgroundImage.sprite = SpriteManager.GetSprite("EquipSlotBackground");
+        }
 
         iconGo.SetActive(false);
         textGo.SetActive(false);
